@@ -1,4 +1,4 @@
-import { User, Send, Monitor, Code, Clapperboard } from "lucide-react";
+import { User, Send, Monitor, Code, Clapperboard, Bot } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
@@ -6,7 +6,7 @@ const teamMembers = [
   { id: 0, name: "Antonio Gayoso", role: "Diseño Web y Presentador", icon: Monitor },
   { id: 1, name: "Samuel Casas", role: "Programador y Presentador", icon: Code },
   { id: 2, name: "Alvaro Sanchez Merlan", role: "Programador y Animador", icon: Clapperboard },
-  { id: 3, name: "Diego Gómez Martín", role: "D", icon: User },
+  { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica #1", icon: Bot },
   { id: 4, name: "Nombre del alumno/a", role: "", icon: User },
   { id: 5, name: "Nombre del alumno/a", role: "", icon: User },
 ];
