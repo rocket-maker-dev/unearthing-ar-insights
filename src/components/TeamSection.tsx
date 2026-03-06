@@ -1,4 +1,4 @@
-import { User, Send, Palette, Code, Clapperboard, Bot, Wrench, FlaskConical } from "lucide-react";
+import { User, Send, PenTool, Code, Clapperboard, Bot, Wrench, SearchCheck } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
