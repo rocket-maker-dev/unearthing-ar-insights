@@ -3,7 +3,7 @@ import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
 const teamMembers = [
-  { id: 0, name: "Antonio Gayoso", role: "Diseñador Web y Presentador", icon: Palette },
+  { id: 0, name: "Antonio Gayoso", role: "Diseñador Web y Presentador", icon: PenTool },
   { id: 1, name: "Samuel Casas", role: "Programador y Presentador", icon: Code },
   { id: 2, name: "Alvaro Sanchez Merlan", role: "Programador y Animador", icon: Clapperboard },
   { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica", icon: Bot },
