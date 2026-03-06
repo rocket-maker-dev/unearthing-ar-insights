@@ -1,4 +1,4 @@
-import { User, Send, Monitor } from "lucide-react";
+import { User, Send, Monitor, Code } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
