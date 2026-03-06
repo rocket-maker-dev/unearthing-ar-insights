@@ -1,17 +1,11 @@
 import { User, Send } from "lucide-react";
-import foxStarIcon from "@/assets/fox-star-icon.png";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
-const teamMembers = [
-  { id: 0, name: "Antonio Gayoso", role: "Diseño Web y Presentador", hasCustomIcon: true },
-  ...Array.from({ length: 5 }, (_, i) => ({
-    id: i + 1,
-    name: "Nombre del alumno/a",
-    role: "",
-    hasCustomIcon: false,
-  })),
-];
+const teamMembers = Array.from({ length: 6 }, (_, i) => ({
+  id: i,
+  name: "Nombre del alumno/a",
+}));
 
 const TeamSection = () => {
   const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
@@ -46,21 +40,12 @@ const TeamSection = () => {
                 key={m.id}
                 className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6"
               >
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                  {m.hasCustomIcon ? (
-                    <img src={foxStarIcon} alt="Icono de zorro" className="w-12 h-12 object-contain" />
-                  ) : (
-                    <User size={28} className="text-muted-foreground" />
-                  )}
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
+                  <User size={28} className="text-muted-foreground" />
                 </div>
                 <span className="text-sm font-medium text-center">
                   {m.name}
                 </span>
-                {m.role && (
-                  <span className="text-xs text-muted-foreground text-center">
-                    {m.role}
-                  </span>
-                )}
               </div>
             ))}
           </div>
