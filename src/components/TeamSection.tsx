@@ -8,7 +8,7 @@ const teamMembers = [
   { id: 2, name: "Alvaro Sanchez Merlan", role: "Programador y Animador", icon: Clapperboard },
   { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica #1", icon: Bot },
   { id: 4, name: "Xabi Vela", role: "Programador de Robótica #2", icon: Bot },
-  { id: 5, name: "Nombre del alumno/a", role: "", icon: User },
+  { id: 5, name: "Miguel Xioazhu Doce Trigo", role: "Constructor de Robótica", icon: Wrench },
 ];
 
 const TeamSection = () => {
