@@ -1,13 +1,13 @@
-import { User, Send, Palette, Code, Clapperboard, Bot, Wrench, FlaskConical } from "lucide-react";
+import { User, Send, PenTool, Code, Clapperboard, Bot, Wrench, SearchCheck } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
 const teamMembers = [
-  { id: 0, name: "Antonio Gayoso", role: "Diseñador Web y Presentador", icon: Palette },
+  { id: 0, name: "Antonio Gayoso", role: "Diseñador Web y Presentador", icon: PenTool },
   { id: 1, name: "Samuel Casas", role: "Programador y Presentador", icon: Code },
   { id: 2, name: "Alvaro Sanchez Merlan", role: "Programador y Animador", icon: Clapperboard },
   { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica", icon: Bot },
-  { id: 4, name: "Xabi Vela", role: "Testeador de Pruebas", icon: FlaskConical },
+  { id: 4, name: "Xabi Vela", role: "Testeador de Pruebas", icon: SearchCheck },
   { id: 5, name: "Miguel Xioazhu Doce Trigo", role: "Constructor de Robótica", icon: Wrench },
 ];
 
