@@ -257,6 +257,45 @@ const YacimientosSection = () => {
                 />
               </div>
 
+              {/* Imagen */}
+              <div className="sm:col-span-2">
+                <label className="text-sm font-medium mb-1.5 block">
+                  Imagen del yacimiento
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+                {imagePreview ? (
+                  <div className="relative inline-block">
+                    <img
+                      src={imagePreview}
+                      alt="Vista previa"
+                      className="max-h-48 rounded-lg border border-border object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:brightness-110 transition"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-card px-4 py-6 text-sm text-muted-foreground hover:border-primary/50 transition-colors w-full justify-center"
+                  >
+                    <ImagePlus size={20} />
+                    Haz clic para subir una imagen
+                  </button>
+                )}
+              </div>
+
               {/* Contacto */}
               <div>
                 <label className="text-sm font-medium mb-1.5 block">
