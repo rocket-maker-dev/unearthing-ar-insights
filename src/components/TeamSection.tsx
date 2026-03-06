@@ -6,8 +6,8 @@ const teamMembers = [
   { id: 0, name: "Antonio Gayoso", role: "Diseño Web y Presentador", icon: Monitor },
   { id: 1, name: "Samuel Casas", role: "Programador y Presentador", icon: Code },
   { id: 2, name: "Alvaro Sanchez Merlan", role: "Programador y Animador", icon: Clapperboard },
-  { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica #1", icon: Bot },
-  { id: 4, name: "Xabi Vela", role: "Programador de Robótica #2", icon: Bot },
+  { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica", icon: Bot },
+  { id: 4, name: "Xabi Vela", role: "Testeador de Pruebas", icon: FlaskConical },
   { id: 5, name: "Miguel Xioazhu Doce Trigo", role: "Constructor de Robótica", icon: Wrench },
 ];
 
