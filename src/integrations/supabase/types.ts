@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      yacimientos: {
+        Row: {
+          contacto_email: string | null
+          contacto_nombre: string | null
+          coordenadas_lat: number | null
+          coordenadas_lng: number | null
+          created_at: string
+          descripcion: string | null
+          estado: string | null
+          fecha_descubrimiento: string | null
+          id: string
+          nombre: string
+          tipo: string
+          ubicacion: string
+        }
+        Insert: {
+          contacto_email?: string | null
+          contacto_nombre?: string | null
+          coordenadas_lat?: number | null
+          coordenadas_lng?: number | null
+          created_at?: string
+          descripcion?: string | null
+          estado?: string | null
+          fecha_descubrimiento?: string | null
+          id?: string
+          nombre: string
+          tipo: string
+          ubicacion: string
+        }
+        Update: {
+          contacto_email?: string | null
+          contacto_nombre?: string | null
+          coordenadas_lat?: number | null
+          coordenadas_lng?: number | null
+          created_at?: string
+          descripcion?: string | null
+          estado?: string | null
+          fecha_descubrimiento?: string | null
+          id?: string
+          nombre?: string
+          tipo?: string
+          ubicacion?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
