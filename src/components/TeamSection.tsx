@@ -1,11 +1,17 @@
 import { User, Send } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
+import antonioAvatar from "@/assets/antonio-avatar.png";
 
-const teamMembers = Array.from({ length: 6 }, (_, i) => ({
-  id: i,
-  name: "Nombre del alumno/a",
-}));
+const teamMembers = [
+  { id: 0, name: "Antonio Gayoso", role: "Diseño Web y Presentador", avatar: antonioAvatar },
+  ...Array.from({ length: 5 }, (_, i) => ({
+    id: i + 1,
+    name: "Nombre del alumno/a",
+    role: "",
+    avatar: "",
+  })),
+];
 
 const TeamSection = () => {
   const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
