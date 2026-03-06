@@ -2,10 +2,15 @@ import { User, Send } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
-const teamMembers = Array.from({ length: 6 }, (_, i) => ({
-  id: i,
-  name: "Nombre del alumno/a",
-}));
+const teamMembers = [
+  { id: 0, name: "Antonio Gayoso", role: "Diseño Web y Presentador", hasCustomIcon: true },
+  ...Array.from({ length: 5 }, (_, i) => ({
+    id: i + 1,
+    name: "Nombre del alumno/a",
+    role: "",
+    hasCustomIcon: false,
+  })),
+];
 
 const TeamSection = () => {
   const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
