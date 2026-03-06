@@ -4,6 +4,7 @@ import ProblemSection from "@/components/ProblemSection";
 import TimelineSection from "@/components/TimelineSection";
 import ArchitectureSection from "@/components/ArchitectureSection";
 import ReplicateSection from "@/components/ReplicateSection";
+import YacimientosSection from "@/components/YacimientosSection";
 import TeamSection from "@/components/TeamSection";
 import Footer from "@/components/Footer";
 
@@ -15,6 +16,7 @@ const Index = () => (
     <TimelineSection />
     <ArchitectureSection />
     <ReplicateSection />
+    <YacimientosSection />
     <TeamSection />
     <Footer />
   </>
