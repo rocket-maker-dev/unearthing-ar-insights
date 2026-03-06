@@ -1,4 +1,5 @@
 import { User, Send } from "lucide-react";
+import foxStarIcon from "@/assets/fox-star-icon.png";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
