@@ -46,12 +46,21 @@ const TeamSection = () => {
                 key={m.id}
                 className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6"
               >
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
-                  <User size={28} className="text-muted-foreground" />
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
+                  {m.hasCustomIcon ? (
+                    <img src={foxStarIcon} alt="Icono de zorro" className="w-12 h-12 object-contain" />
+                  ) : (
+                    <User size={28} className="text-muted-foreground" />
+                  )}
                 </div>
                 <span className="text-sm font-medium text-center">
                   {m.name}
                 </span>
+                {m.role && (
+                  <span className="text-xs text-muted-foreground text-center">
+                    {m.role}
+                  </span>
+                )}
               </div>
             ))}
           </div>
