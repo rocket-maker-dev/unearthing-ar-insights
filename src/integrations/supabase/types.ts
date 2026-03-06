@@ -25,6 +25,7 @@ export type Database = {
           estado: string | null
           fecha_descubrimiento: string | null
           id: string
+          imagen_url: string | null
           nombre: string
           tipo: string
           ubicacion: string
@@ -39,6 +40,7 @@ export type Database = {
           estado?: string | null
           fecha_descubrimiento?: string | null
           id?: string
+          imagen_url?: string | null
           nombre: string
           tipo: string
           ubicacion: string
@@ -53,6 +55,7 @@ export type Database = {
           estado?: string | null
           fecha_descubrimiento?: string | null
           id?: string
+          imagen_url?: string | null
           nombre?: string
           tipo?: string
           ubicacion?: string

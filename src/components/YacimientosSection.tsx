@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { MapPin, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useState, useRef } from "react";
+import { MapPin, Send, CheckCircle, AlertCircle, ImagePlus, X } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -28,11 +28,32 @@ const YacimientosSection = () => {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setErrorMsg("Solo se permiten archivos de imagen.");
+      setStatus("error");
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const removeImage = () => {
+    setImageFile(null);
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,6 +67,29 @@ const YacimientosSection = () => {
       return;
     }
 
+    let imagen_url: string | null = null;
+
+    // Upload image if selected
+    if (imageFile) {
+      const ext = imageFile.name.split(".").pop();
+      const fileName = `${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("yacimiento-images")
+        .upload(fileName, imageFile);
+
+      if (uploadError) {
+        setStatus("error");
+        setErrorMsg("Error al subir la imagen. Inténtalo de nuevo.");
+        console.error(uploadError);
+        return;
+      }
+
+      const { data: publicData } = supabase.storage
+        .from("yacimiento-images")
+        .getPublicUrl(fileName);
+      imagen_url = publicData.publicUrl;
+    }
+
     const { error } = await supabase.from("yacimientos").insert({
       nombre: form.nombre.trim(),
       ubicacion: form.ubicacion.trim(),
@@ -56,7 +100,8 @@ const YacimientosSection = () => {
       coordenadas_lng: form.coordenadas_lng ? parseFloat(form.coordenadas_lng) : null,
       contacto_nombre: form.contacto_nombre.trim() || null,
       contacto_email: form.contacto_email.trim() || null,
-    });
+      imagen_url,
+    } as any);
 
     if (error) {
       setStatus("error");
@@ -65,6 +110,7 @@ const YacimientosSection = () => {
     } else {
       setStatus("success");
       setForm(initialForm);
+      removeImage();
     }
   };
 
@@ -209,6 +255,45 @@ const YacimientosSection = () => {
                   placeholder="Describe el yacimiento, su estado actual, hallazgos relevantes…"
                   className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
                 />
+              </div>
+
+              {/* Imagen */}
+              <div className="sm:col-span-2">
+                <label className="text-sm font-medium mb-1.5 block">
+                  Imagen del yacimiento
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+                {imagePreview ? (
+                  <div className="relative inline-block">
+                    <img
+                      src={imagePreview}
+                      alt="Vista previa"
+                      className="max-h-48 rounded-lg border border-border object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={removeImage}
+                      className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:brightness-110 transition"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-card px-4 py-6 text-sm text-muted-foreground hover:border-primary/50 transition-colors w-full justify-center"
+                  >
+                    <ImagePlus size={20} />
+                    Haz clic para subir una imagen
+                  </button>
+                )}
               </div>
 
               {/* Contacto */}
