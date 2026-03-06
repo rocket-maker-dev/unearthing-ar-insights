@@ -1,11 +1,15 @@
-import { User, Send } from "lucide-react";
+import { User, Send, Monitor } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
-const teamMembers = Array.from({ length: 6 }, (_, i) => ({
-  id: i,
-  name: "Nombre del alumno/a",
-}));
+const teamMembers = [
+  { id: 0, name: "Antonio Gayoso", role: "Diseño Web y Presentador", icon: Monitor },
+  { id: 1, name: "Nombre del alumno/a", role: "", icon: User },
+  { id: 2, name: "Nombre del alumno/a", role: "", icon: User },
+  { id: 3, name: "Nombre del alumno/a", role: "", icon: User },
+  { id: 4, name: "Nombre del alumno/a", role: "", icon: User },
+  { id: 5, name: "Nombre del alumno/a", role: "", icon: User },
+];
 
 const TeamSection = () => {
   const [form, setForm] = useState({ nombre: "", email: "", mensaje: "" });
