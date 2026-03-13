@@ -138,7 +138,10 @@ const UploadDialog = ({
 
     const { error: uploadErr } = await supabase.storage
       .from("yacimiento-images")
-      .upload(mainFileName, file);
+      .upload(mainFileName, file, {
+        contentType: file.type || "application/octet-stream",
+        cacheControl: "3600",
+      });
 
     if (uploadErr) {
       setError("Error al subir el archivo principal. Inténtalo de nuevo.");
@@ -151,7 +154,10 @@ const UploadDialog = ({
       for (const ef of extraFiles) {
         const { error: extraErr } = await supabase.storage
           .from("yacimiento-images")
-          .upload(`${folderPrefix}/${ef.name}`, ef);
+          .upload(`${folderPrefix}/${ef.name}`, ef, {
+            contentType: ef.type || "application/octet-stream",
+            cacheControl: "3600",
+          });
         if (extraErr) {
           setError(`Error al subir "${ef.name}". Inténtalo de nuevo.`);
           setUploading(false);
