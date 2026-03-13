@@ -8,7 +8,7 @@ const teamMembers = [
   { id: 2, name: "Álvaro", age: 13, role: "Programador y Animador", icon: Clapperboard },
   { id: 3, name: "Diego", age: 14, role: "Programador de Robótica", icon: Bot },
   { id: 4, name: "Xabi", age: 13, role: "Programador y Constructor", icon: SearchCheck },
-  { id: 5, name: "Miguel Ziao", age: 14, role: "Constructor de Robótica", icon: Wrench },
+  { id: 5, name: "Miguel Tatu", age: 13, role: "Constructor de Robótica", icon: Wrench },
 ];
 
 const TeamSection = () => {
