@@ -50,7 +50,7 @@ const ProblemSection = () => (
             />
             <div className="p-4 bg-card">
               <p className="text-sm font-medium text-foreground">AR en tiempo real</p>
-              <p className="text-xs text-muted-foreground">Apunta con tu iPhone y los hallazgos aparecen superpuestos al yacimiento real</p>
+              <p className="text-xs text-muted-foreground">Apunta con tu Android y los hallazgos aparecen superpuestos al yacimiento real</p>
             </div>
           </div>
           <div className="rounded-xl overflow-hidden border border-border group">
