@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo_vision_maker_lab.png";
 
 const links = [
   { label: "Problema", href: "#problema" },
@@ -25,10 +26,13 @@ const Navbar = () => {
         scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-        <a href="#" className="text-lg font-bold tracking-tight">
-          <span className="text-gradient">UNEARTHED</span>{" "}
-          <span className="text-foreground">AR</span>
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+        <a href="#" className="flex items-center gap-3">
+          <img src={logo} alt="Vision Maker Lab" className="h-10 w-10 rounded-full object-cover" />
+          <span className="text-lg font-bold tracking-tight">
+            <span className="text-gradient">UNEARTHED</span>{" "}
+            <span className="text-foreground">AR</span>
+          </span>
         </a>
 
         {/* Desktop */}
