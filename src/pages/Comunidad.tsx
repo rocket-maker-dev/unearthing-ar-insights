@@ -180,6 +180,45 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
           </div>
         )}
 
+        {/* Visor 3D */}
+        <div className="border-t border-border pt-8 mt-8">
+          <h2 className="text-2xl font-bold mb-6">Visor 3D</h2>
+          <ModelViewer
+            modelUrl={items.find((i) => i.tipo === "modelo_3d")?.archivo_url || undefined}
+          />
+        </div>
+
+        {/* Datos de excavación */}
+        <div className="border-t border-border pt-8 mt-8">
+          <h2 className="text-2xl font-bold mb-6">Datos de excavación</h2>
+          <CSVViewer />
+        </div>
+
+        {/* Galería y montajes */}
+        <div className="border-t border-border pt-8 mt-8">
+          <h2 className="text-2xl font-bold mb-6">Galería y montajes</h2>
+          <ARGallery
+            images={
+              items
+                .filter((i) => i.tipo === "imagen" && (i.archivo_url || i.thumbnail_url))
+                .map((i) => ({
+                  src: (i.archivo_url || i.thumbnail_url)!,
+                  title: i.titulo,
+                  category: "montaje" as const,
+                }))
+                .length > 0
+                ? items
+                    .filter((i) => i.tipo === "imagen" && (i.archivo_url || i.thumbnail_url))
+                    .map((i) => ({
+                      src: (i.archivo_url || i.thumbnail_url)!,
+                      title: i.titulo,
+                      category: "montaje" as const,
+                    }))
+                : undefined
+            }
+          />
+        </div>
+
         {items.length === 0 && (
           <div className="text-center py-12 border border-dashed border-border rounded-xl">
             <p className="text-muted-foreground">Aún no hay contenido AR para este yacimiento.</p>
