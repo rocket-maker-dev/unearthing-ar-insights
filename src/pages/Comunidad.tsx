@@ -284,7 +284,52 @@ const UploadDialog = ({
             )}
           </div>
 
-          {error && (
+          {/* Extra files for 3D models (.bin, textures) */}
+          {is3D && file && (
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">Archivos adicionales (.bin, texturas…)</label>
+              <input
+                ref={extraFileRef}
+                type="file"
+                multiple
+                accept=".bin,.png,.jpg,.jpeg,.ktx2"
+                onChange={handleExtraFilesChange}
+                className="hidden"
+              />
+              {extraFiles.length > 0 ? (
+                <div className="space-y-2">
+                  {extraFiles.map((ef, i) => (
+                    <div key={i} className="flex items-center gap-3 rounded-lg border border-border bg-background px-4 py-2 text-sm">
+                      <FileText size={14} className="text-primary shrink-0" />
+                      <span className="truncate flex-1">{ef.name}</span>
+                      <span className="text-xs text-muted-foreground">{(ef.size / 1024 / 1024).toFixed(1)} MB</span>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => { setExtraFiles([]); }}
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Quitar archivos adicionales
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => extraFileRef.current?.click()}
+                  className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-background px-4 py-4 text-sm text-muted-foreground hover:border-primary/50 transition-colors w-full justify-center"
+                >
+                  <Plus size={16} />
+                  Añadir .bin, texturas u otros archivos del modelo
+                </button>
+              )}
+              <p className="text-xs text-muted-foreground mt-1.5">
+                Si tu modelo .gltf referencia archivos externos (animacion0.bin, texturas…), súbelos aquí.
+              </p>
+            </div>
+          )}
+
+
             <p className="text-sm text-red-400 flex items-center gap-1.5">{error}</p>
           )}
 
