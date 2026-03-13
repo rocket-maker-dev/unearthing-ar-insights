@@ -360,6 +360,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   const [items, setItems] = useState<YacimientoItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
+  const [selected3DId, setSelected3DId] = useState<string | null>(null);
 
   const fetchData = async () => {
     const { data: y } = await supabase.from("yacimientos").select("*").eq("id", id).single();
