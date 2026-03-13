@@ -28,7 +28,7 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        <a href="#" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <img src={logo} alt="Vision Maker Lab" className="h-10 w-10 rounded-full object-cover" />
           <span className="text-lg font-bold tracking-tight">
             <span className="text-gradient">UNEARTHED</span>{" "}
