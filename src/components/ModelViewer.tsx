@@ -183,9 +183,10 @@ const LoadingOverlay = () => (
 interface ModelViewerProps {
   modelUrl?: string;
   className?: string;
+  compact?: boolean;
 }
 
-const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
+const ModelViewer = ({ modelUrl, className = "", compact = false }: ModelViewerProps) => {
   const [localUrl, setLocalUrl] = useState<string | null>(null);
   const [wireframe, setWireframe] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
@@ -211,50 +212,54 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
   }, []);
 
   return (
-    <div className={`relative w-full h-[400px] md:h-[500px] rounded-xl border border-border bg-card overflow-hidden ${className}`}>
+    <div className={`relative w-full ${compact ? "h-full" : "h-[400px] md:h-[500px]"} rounded-xl border border-border bg-card overflow-hidden ${className}`}>
       {loading && <LoadingOverlay />}
 
       {/* Floating controls */}
-      <div className="absolute top-3 right-3 z-20 flex gap-2">
-        <button
-          onClick={resetCamera}
-          className="p-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
-          title="Reset cámara"
-        >
-          <RotateCcw size={16} />
-        </button>
-        <button
-          onClick={() => setWireframe((w) => !w)}
-          className={`p-2 rounded-lg backdrop-blur-sm border transition-all ${wireframe ? "bg-primary/20 border-primary/40 text-primary" : "bg-background/80 border-border text-muted-foreground hover:text-foreground hover:border-primary/40"}`}
-          title="Wireframe on/off"
-        >
-          <Grid3X3 size={16} />
-        </button>
-        <button
-          onClick={() => setAutoRotate((r) => !r)}
-          className={`p-2 rounded-lg backdrop-blur-sm border transition-all ${autoRotate ? "bg-primary/20 border-primary/40 text-primary" : "bg-background/80 border-border text-muted-foreground hover:text-foreground hover:border-primary/40"}`}
-          title="Auto-rotate on/off"
-        >
-          <RefreshCw size={16} />
-        </button>
-      </div>
+      {!compact && (
+        <div className="absolute top-3 right-3 z-20 flex gap-2">
+          <button
+            onClick={resetCamera}
+            className="p-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+            title="Reset cámara"
+          >
+            <RotateCcw size={16} />
+          </button>
+          <button
+            onClick={() => setWireframe((w) => !w)}
+            className={`p-2 rounded-lg backdrop-blur-sm border transition-all ${wireframe ? "bg-primary/20 border-primary/40 text-primary" : "bg-background/80 border-border text-muted-foreground hover:text-foreground hover:border-primary/40"}`}
+            title="Wireframe on/off"
+          >
+            <Grid3X3 size={16} />
+          </button>
+          <button
+            onClick={() => setAutoRotate((r) => !r)}
+            className={`p-2 rounded-lg backdrop-blur-sm border transition-all ${autoRotate ? "bg-primary/20 border-primary/40 text-primary" : "bg-background/80 border-border text-muted-foreground hover:text-foreground hover:border-primary/40"}`}
+            title="Auto-rotate on/off"
+          >
+            <RefreshCw size={16} />
+          </button>
+        </div>
+      )}
 
       {/* Upload button */}
-      <div className="absolute bottom-3 left-3 z-20">
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
-        >
-          <Upload size={14} /> Subir modelo 3D
-        </button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".glb,.gltf,.stl,.obj,.fbx"
-          onChange={handleFile}
-          className="hidden"
-        />
-      </div>
+      {!compact && (
+        <div className="absolute bottom-3 left-3 z-20">
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+          >
+            <Upload size={14} /> Subir modelo 3D
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".glb,.gltf,.stl,.obj,.fbx"
+            onChange={handleFile}
+            className="hidden"
+          />
+        </div>
+      )}
 
       {/* 3D Canvas */}
       <Canvas
