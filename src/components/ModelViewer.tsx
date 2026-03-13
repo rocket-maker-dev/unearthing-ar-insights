@@ -47,8 +47,11 @@ const HypocaustumPillars = ({ wireframe }: { wireframe: boolean }) => {
 };
 
 // ===== GLTF model loader =====
-const GLTFModel = ({ url, wireframe }: { url: string; wireframe: boolean }) => {
-  const { scene } = useGLTF(url);
+const GLTFModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
+  const { scene } = useGLTF(url, undefined, undefined, (e) => {
+    console.error("GLTF load error:", e);
+    onError?.();
+  });
 
   useMemo(() => {
     scene.traverse((child) => {
