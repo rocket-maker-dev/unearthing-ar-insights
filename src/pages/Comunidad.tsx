@@ -352,6 +352,16 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
           </p>
         )}
 
+        {/* Upload button */}
+        <div className="flex items-center gap-4 mb-8">
+          <button
+            onClick={() => setShowUpload(true)}
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg hover:brightness-110 transition-all text-sm"
+          >
+            <Upload size={16} /> Subir montaje o modelo
+          </button>
+        </div>
+
         {/* Items gallery */}
         {items.length > 0 && (
           <div>
@@ -435,6 +445,18 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
             <p className="text-muted-foreground">Aún no hay contenido AR para este yacimiento.</p>
             <p className="text-sm text-muted-foreground mt-1">¡Sé el primero en añadir contenido!</p>
           </div>
+        )}
+
+        {/* Upload dialog */}
+        {showUpload && (
+          <UploadDialog
+            yacimientoId={id}
+            onClose={() => setShowUpload(false)}
+            onUploaded={() => {
+              setShowUpload(false);
+              fetchData();
+            }}
+          />
         )}
       </div>
     </div>
