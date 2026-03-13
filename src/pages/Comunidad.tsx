@@ -479,9 +479,21 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
                       )}
                     </div>
                     <div className="p-4">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Icon size={14} className="text-primary" />
-                        <span className="text-xs text-primary font-medium">{tipoLabels[item.tipo]}</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <Icon size={14} className="text-primary" />
+                          <span className="text-xs text-primary font-medium">{tipoLabels[item.tipo]}</span>
+                        </div>
+                        {isAdmin && (
+                          <button
+                            onClick={() => handleDeleteItem(item.id)}
+                            disabled={deleting === item.id}
+                            className="p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
+                            title="Eliminar recurso"
+                          >
+                            {deleting === item.id ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                          </button>
+                        )}
                       </div>
                       <h3 className="text-sm font-bold">{item.titulo}</h3>
                       {item.descripcion && (
