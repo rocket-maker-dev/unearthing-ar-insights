@@ -443,7 +443,13 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
                 return (
                   <div key={item.id} className="rounded-xl border border-border bg-card overflow-hidden group">
                     <div className="h-40 overflow-hidden bg-secondary">
-                      {(item.thumbnail_url || item.archivo_url) ? (
+                      {item.tipo === "modelo_3d" && item.archivo_url ? (
+                        <ModelViewer
+                          modelUrl={item.archivo_url}
+                          compact
+                          className="h-full rounded-none border-0"
+                        />
+                      ) : (item.thumbnail_url || item.archivo_url) ? (
                         <img
                           src={item.thumbnail_url || item.archivo_url || ""}
                           alt={item.titulo}
