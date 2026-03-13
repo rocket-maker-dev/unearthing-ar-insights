@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MapPin, ArrowLeft, ExternalLink, Calendar, Globe, Plus, Image, Box, FileText, Film, Upload, X, CheckCircle, Loader2 } from "lucide-react";
+import { MapPin, ArrowLeft, ExternalLink, Calendar, Globe, Plus, Image, Box, FileText, Film, Upload, X, CheckCircle, Loader2, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
@@ -367,6 +368,8 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   const [loading, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
   const [selected3DId, setSelected3DId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const { isAdmin } = useAuth();
 
   const fetchData = async () => {
     const { data: y } = await supabase.from("yacimientos").select("*").eq("id", id).single();
@@ -379,6 +382,14 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   useEffect(() => {
     fetchData();
   }, [id]);
+
+  const handleDeleteItem = async (itemId: string) => {
+    if (!confirm("¿Seguro que quieres eliminar este recurso?")) return;
+    setDeleting(itemId);
+    await supabase.from("yacimiento_items").delete().eq("id", itemId);
+    setItems((prev) => prev.filter((i) => i.id !== itemId));
+    setDeleting(null);
+  };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Cargando...</div>;
   if (!yacimiento) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">No encontrado</div>;
@@ -468,9 +479,21 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
                       )}
                     </div>
                     <div className="p-4">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Icon size={14} className="text-primary" />
-                        <span className="text-xs text-primary font-medium">{tipoLabels[item.tipo]}</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <Icon size={14} className="text-primary" />
+                          <span className="text-xs text-primary font-medium">{tipoLabels[item.tipo]}</span>
+                        </div>
+                        {isAdmin && (
+                          <button
+                            onClick={() => handleDeleteItem(item.id)}
+                            disabled={deleting === item.id}
+                            className="p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
+                            title="Eliminar recurso"
+                          >
+                            {deleting === item.id ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                          </button>
+                        )}
                       </div>
                       <h3 className="text-sm font-bold">{item.titulo}</h3>
                       {item.descripcion && (
