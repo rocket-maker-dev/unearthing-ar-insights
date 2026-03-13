@@ -12,7 +12,7 @@ const features = [
   {
     icon: Eye,
     title: "Visualizar",
-    desc: "WebXR ancla los objetos al mundo real sin apps, solo con el navegador Safari",
+    desc: "WebXR ancla los objetos al mundo real sin apps, solo con Chrome y ARCore",
   },
   {
     icon: Link,
