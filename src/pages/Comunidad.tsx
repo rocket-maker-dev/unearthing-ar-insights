@@ -247,15 +247,15 @@ const Comunidad = () => {
             {/* CTA to register */}
             <AnimatedSection delay={0.2}>
               <div className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
-                <h3 className="text-xl font-bold mb-2">¿Conoces un yacimiento?</h3>
-                <p className="text-muted-foreground mb-6">
-                  Ayúdanos a crear la mayor base de datos de yacimientos con tecnología AR.
+                <h3 className="text-xl font-bold mb-2">Crea tu propio contenido AR</h3>
+                <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
+                  Usa las plantillas y herramientas de <span className="text-foreground font-semibold">UNEARTHED AR</span> para dar vida a cualquier yacimiento arqueológico con Realidad Aumentada. ¡Sin necesidad de programar!
                 </p>
                 <a
-                  href="/#yacimientos"
+                  href="/#arquitectura"
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition-all"
                 >
-                  <Plus size={18} /> Registrar yacimiento
+                  <Plus size={18} /> Empieza ahora
                 </a>
               </div>
             </AnimatedSection>
