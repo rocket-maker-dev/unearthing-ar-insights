@@ -90,6 +90,7 @@ const GLTFModel = ({ url, wireframe, onError }: { url: string; wireframe: boolea
 // ===== STL model loader =====
 const STLModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
   const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
+  const meshRef = useRef<THREE.Mesh>(null!);
 
   useEffect(() => {
     const loader = new STLLoader();
@@ -107,15 +108,13 @@ const STLModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean
     );
   }, [url]);
 
-  if (!geometry) return null;
-
-  const meshRef = useRef<THREE.Mesh>(null!);
-
   useEffect(() => {
-    if (meshRef.current) {
+    if (meshRef.current && geometry) {
       autoScaleAndCenter(meshRef.current);
     }
   }, [geometry]);
+
+  if (!geometry) return null;
 
   return (
     <mesh ref={meshRef} geometry={geometry}>
