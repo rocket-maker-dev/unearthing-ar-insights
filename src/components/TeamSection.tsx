@@ -50,7 +50,7 @@ const TeamSection = () => {
                     <Icon size={28} className="text-muted-foreground" />
                   </div>
                   <span className="text-sm font-medium text-center">
-                    {m.name}
+                    {m.name}, {m.age} años
                   </span>
                   {m.role && (
                     <span className="text-xs text-muted-foreground text-center">
