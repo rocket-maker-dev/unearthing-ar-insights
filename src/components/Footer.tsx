@@ -11,9 +11,6 @@ const Footer = () => (
         <a href="#" className="hover:text-foreground transition-colors inline-flex items-center gap-1.5">
           <Github size={16} /> GitHub
         </a>
-        <a href="#equipo" className="hover:text-foreground transition-colors">
-          Contacto
-        </a>
       </div>
     </div>
   </footer>
