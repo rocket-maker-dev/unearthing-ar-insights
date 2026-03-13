@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      yacimiento_items: {
+        Row: {
+          archivo_url: string | null
+          created_at: string
+          descripcion: string | null
+          id: string
+          orden: number | null
+          thumbnail_url: string | null
+          tipo: string
+          titulo: string
+          yacimiento_id: string
+        }
+        Insert: {
+          archivo_url?: string | null
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          orden?: number | null
+          thumbnail_url?: string | null
+          tipo: string
+          titulo: string
+          yacimiento_id: string
+        }
+        Update: {
+          archivo_url?: string | null
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          orden?: number | null
+          thumbnail_url?: string | null
+          tipo?: string
+          titulo?: string
+          yacimiento_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "yacimiento_items_yacimiento_id_fkey"
+            columns: ["yacimiento_id"]
+            isOneToOne: false
+            referencedRelation: "yacimientos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       yacimientos: {
         Row: {
           contacto_email: string | null
@@ -29,6 +73,7 @@ export type Database = {
           nombre: string
           tipo: string
           ubicacion: string
+          website_url: string | null
         }
         Insert: {
           contacto_email?: string | null
@@ -44,6 +89,7 @@ export type Database = {
           nombre: string
           tipo: string
           ubicacion: string
+          website_url?: string | null
         }
         Update: {
           contacto_email?: string | null
@@ -59,6 +105,7 @@ export type Database = {
           nombre?: string
           tipo?: string
           ubicacion?: string
+          website_url?: string | null
         }
         Relationships: []
       }
