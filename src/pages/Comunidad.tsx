@@ -78,7 +78,7 @@ const YacimientoCard = ({ y, onClick }: { y: Yacimiento; onClick: () => void }) 
 // ===== UPLOAD DIALOG =====
 const tipoOptions = [
   { value: "imagen", label: "Imagen / Montaje AR", icon: Image, accept: "image/*" },
-  { value: "modelo_3d", label: "Modelo 3D (.glb/.gltf)", icon: Box, accept: ".glb,.gltf" },
+  { value: "modelo_3d", label: "Modelo 3D", icon: Box, accept: ".glb,.gltf,.stl,.obj,.fbx" },
   { value: "video", label: "Vídeo", icon: Film, accept: "video/*" },
   { value: "panel_info", label: "Panel informativo", icon: FileText, accept: "image/*,.pdf" },
 ];
