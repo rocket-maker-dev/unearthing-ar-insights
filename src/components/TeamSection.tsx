@@ -3,12 +3,12 @@ import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
 const teamMembers = [
-  { id: 0, name: "Antonio Gayoso", role: "Diseñador Web y Presentador", icon: PenTool },
-  { id: 1, name: "Samuel Casas", role: "Programador y Presentador", icon: Code },
-  { id: 2, name: "Alvaro Sanchez Merlan", role: "Programador y Animador", icon: Clapperboard },
-  { id: 3, name: "Diego Gómez Martín", role: "Programador de Robótica", icon: Bot },
-  { id: 4, name: "Xabi Vela Abad", role: "Programador y Constructor", icon: SearchCheck },
-  { id: 5, name: "Miguel Xioazhu Doce Trigo", role: "Constructor de Robótica", icon: Wrench },
+  { id: 0, name: "Antonio", age: 15, role: "Diseñador Web y Presentador", icon: PenTool },
+  { id: 1, name: "Samu", age: 13, role: "Programador y Presentador", icon: Code },
+  { id: 2, name: "Álvaro", age: 13, role: "Programador y Animador", icon: Clapperboard },
+  { id: 3, name: "Diego", age: 14, role: "Programador de Robótica", icon: Bot },
+  { id: 4, name: "Xabi", age: 13, role: "Programador y Constructor", icon: SearchCheck },
+  { id: 5, name: "Miguel Ziao", age: 14, role: "Constructor de Robótica", icon: Wrench },
 ];
 
 const TeamSection = () => {
