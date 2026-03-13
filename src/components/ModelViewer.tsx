@@ -1,7 +1,9 @@
-import { useState, useRef, Suspense, useCallback, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useState, useRef, Suspense, useCallback, useMemo, useEffect } from "react";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { RotateCcw, Grid3X3, RefreshCw, Upload, Loader2 } from "lucide-react";
 
 // ===== Placeholder: Hypocaustum pillars =====
@@ -18,17 +20,14 @@ const HypocaustumPillars = ({ wireframe }: { wireframe: boolean }) => {
 
   return (
     <group ref={groupRef}>
-      {/* Base slab */}
       <mesh position={[0, -0.65, 0]}>
         <boxGeometry args={[3.6, 0.15, 3.6]} />
         <meshStandardMaterial color="#b8860b" wireframe={wireframe} transparent opacity={0.6} />
       </mesh>
-      {/* Top slab */}
       <mesh position={[0, 0.75, 0]}>
         <boxGeometry args={[3.6, 0.1, 3.6]} />
         <meshStandardMaterial color="#b8860b" wireframe={wireframe} transparent opacity={0.4} />
       </mesh>
-      {/* Pillars */}
       {positions.map((pos, i) => (
         <mesh key={i} position={[pos[0], 0, pos[2]]}>
           <cylinderGeometry args={[0.18, 0.22, 1.2, 16]} />
@@ -46,6 +45,35 @@ const HypocaustumPillars = ({ wireframe }: { wireframe: boolean }) => {
   );
 };
 
+// ===== Helpers =====
+function getFileExtension(url: string): string {
+  return url.split("?")[0].split(".").pop()?.toLowerCase() || "";
+}
+
+function autoScaleAndCenter(object: THREE.Object3D) {
+  const box = new THREE.Box3().setFromObject(object);
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z);
+  if (maxDim === 0) return;
+  const scale = 2.5 / maxDim;
+  object.scale.setScalar(scale);
+  const center = box.getCenter(new THREE.Vector3());
+  object.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+}
+
+function applyWireframe(object: THREE.Object3D, wireframe: boolean) {
+  object.traverse((child) => {
+    if ((child as THREE.Mesh).isMesh) {
+      const mesh = child as THREE.Mesh;
+      if (Array.isArray(mesh.material)) {
+        mesh.material.forEach((m) => { (m as THREE.MeshStandardMaterial).wireframe = wireframe; });
+      } else {
+        (mesh.material as THREE.MeshStandardMaterial).wireframe = wireframe;
+      }
+    }
+  });
+}
+
 // ===== GLTF model loader =====
 const GLTFModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
   const { scene } = useGLTF(url, undefined, undefined, (e) => {
@@ -53,31 +81,92 @@ const GLTFModel = ({ url, wireframe, onError }: { url: string; wireframe: boolea
     onError?.();
   });
 
-  useMemo(() => {
-    scene.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        if (Array.isArray(mesh.material)) {
-          mesh.material.forEach((m) => { (m as THREE.MeshStandardMaterial).wireframe = wireframe; });
-        } else {
-          (mesh.material as THREE.MeshStandardMaterial).wireframe = wireframe;
-        }
-      }
-    });
-  }, [scene, wireframe]);
-
-  // Auto-scale and center
-  useMemo(() => {
-    const box = new THREE.Box3().setFromObject(scene);
-    const size = box.getSize(new THREE.Vector3());
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const scale = 2.5 / maxDim;
-    scene.scale.setScalar(scale);
-    const center = box.getCenter(new THREE.Vector3());
-    scene.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
-  }, [scene]);
+  useMemo(() => applyWireframe(scene, wireframe), [scene, wireframe]);
+  useMemo(() => autoScaleAndCenter(scene), [scene]);
 
   return <primitive object={scene} />;
+};
+
+// ===== STL model loader =====
+const STLModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
+  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
+  const meshRef = useRef<THREE.Mesh>(null!);
+
+  useEffect(() => {
+    const loader = new STLLoader();
+    loader.load(
+      url,
+      (geo) => {
+        geo.computeVertexNormals();
+        setGeometry(geo);
+      },
+      undefined,
+      (e) => {
+        console.error("STL load error:", e);
+        onError?.();
+      }
+    );
+  }, [url]);
+
+  useEffect(() => {
+    if (meshRef.current && geometry) {
+      autoScaleAndCenter(meshRef.current);
+    }
+  }, [geometry]);
+
+  if (!geometry) return null;
+
+  return (
+    <mesh ref={meshRef} geometry={geometry}>
+      <meshStandardMaterial color="#daa520" wireframe={wireframe} metalness={0.3} roughness={0.5} />
+    </mesh>
+  );
+};
+
+// ===== OBJ model loader =====
+const OBJModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
+  const [object, setObject] = useState<THREE.Group | null>(null);
+
+  useEffect(() => {
+    const loader = new OBJLoader();
+    loader.load(
+      url,
+      (obj) => {
+        // Give default material to meshes without one
+        obj.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            const mesh = child as THREE.Mesh;
+            if (!mesh.material || (mesh.material as THREE.Material).type === "MeshBasicMaterial") {
+              mesh.material = new THREE.MeshStandardMaterial({ color: "#daa520", metalness: 0.3, roughness: 0.5 });
+            }
+          }
+        });
+        autoScaleAndCenter(obj);
+        setObject(obj);
+      },
+      undefined,
+      (e) => {
+        console.error("OBJ load error:", e);
+        onError?.();
+      }
+    );
+  }, [url]);
+
+  useEffect(() => {
+    if (object) applyWireframe(object, wireframe);
+  }, [object, wireframe]);
+
+  if (!object) return null;
+  return <primitive object={object} />;
+};
+
+// ===== Model dispatcher =====
+const ModelDispatcher = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
+  const ext = getFileExtension(url);
+
+  if (ext === "stl") return <STLModel url={url} wireframe={wireframe} onError={onError} />;
+  if (ext === "obj") return <OBJModel url={url} wireframe={wireframe} onError={onError} />;
+  return <GLTFModel url={url} wireframe={wireframe} onError={onError} />;
 };
 
 // ===== Loading spinner overlay =====
@@ -110,10 +199,10 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
   const handleFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setModelError(false);
     setLoading(true);
     const url = URL.createObjectURL(file);
     setLocalUrl(url);
-    // Loading will be handled by Suspense fallback
     setTimeout(() => setLoading(false), 100);
   }, []);
 
@@ -156,12 +245,12 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
           onClick={() => fileInputRef.current?.click()}
           className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
         >
-          <Upload size={14} /> Subir .glb / .gltf
+          <Upload size={14} /> Subir modelo 3D
         </button>
         <input
           ref={fileInputRef}
           type="file"
-          accept=".glb,.gltf"
+          accept=".glb,.gltf,.stl,.obj,.fbx"
           onChange={handleFile}
           className="hidden"
         />
@@ -178,7 +267,7 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
         <Suspense fallback={null}>
           <Environment preset="apartment" />
           {activeUrl ? (
-            <GLTFModel url={activeUrl} wireframe={wireframe} onError={() => setModelError(true)} />
+            <ModelDispatcher url={activeUrl} wireframe={wireframe} onError={() => setModelError(true)} />
           ) : (
             <HypocaustumPillars wireframe={wireframe} />
           )}
