@@ -266,7 +266,7 @@ const UploadDialog = ({
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{file.name}</p>
-                  <p className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(1)} MB</p>
+                  <p className="text-xs text-muted-foreground">{file.size < 1024 ? `${file.size} B` : file.size < 1048576 ? `${(file.size / 1024).toFixed(0)} KB` : `${(file.size / 1048576).toFixed(1)} MB`}</p>
                 </div>
                 <button type="button" onClick={() => { setFile(null); setPreview(null); }} className="text-muted-foreground hover:text-foreground">
                   <X size={16} />
