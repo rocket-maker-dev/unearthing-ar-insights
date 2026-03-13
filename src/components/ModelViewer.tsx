@@ -183,9 +183,10 @@ const LoadingOverlay = () => (
 interface ModelViewerProps {
   modelUrl?: string;
   className?: string;
+  compact?: boolean;
 }
 
-const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
+const ModelViewer = ({ modelUrl, className = "", compact = false }: ModelViewerProps) => {
   const [localUrl, setLocalUrl] = useState<string | null>(null);
   const [wireframe, setWireframe] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
