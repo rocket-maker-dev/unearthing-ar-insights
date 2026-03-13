@@ -210,7 +210,7 @@ const UploadDialog = ({
                   <button
                     key={t.value}
                     type="button"
-                    onClick={() => { setTipo(t.value); setFile(null); setPreview(null); }}
+                    onClick={() => { setTipo(t.value); setFile(null); setPreview(null); setExtraFiles([]); }}
                     className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm transition-colors ${
                       tipo === t.value
                         ? "border-primary bg-primary/10 text-primary"
