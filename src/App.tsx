@@ -13,6 +13,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      {/* Ambient floating particles */}
+      <div className="ambient-particles">
+        <span /><span /><span /><span />
+        <span /><span /><span /><span />
+      </div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
