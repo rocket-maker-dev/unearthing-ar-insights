@@ -20,6 +20,15 @@ const HeroSection = () => (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
 
     <div className="relative z-10 max-w-4xl mx-auto text-center px-6 py-32">
+      <motion.img
+        src={logo}
+        alt="Logo Vision Maker Lab"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.1, duration: 0.6 }}
+        className="w-28 h-28 md:w-36 md:h-36 mx-auto mb-6 rounded-full object-cover border-2 border-primary/30 shadow-[0_0_30px_hsla(217,91%,60%,0.15)]"
+      />
+
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
