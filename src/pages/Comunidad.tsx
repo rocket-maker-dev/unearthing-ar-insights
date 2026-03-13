@@ -96,12 +96,15 @@ const UploadDialog = ({
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [extraFiles, setExtraFiles] = useState<File[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const extraFileRef = useRef<HTMLInputElement>(null);
 
   const selectedTipo = tipoOptions.find((t) => t.value === tipo)!;
+  const is3D = tipo === "modelo_3d";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
@@ -114,6 +117,12 @@ const UploadDialog = ({
     }
   };
 
+  const handleExtraFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    setExtraFiles(Array.from(files));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !titulo.trim()) {
@@ -123,21 +132,37 @@ const UploadDialog = ({
     setUploading(true);
     setError("");
 
-    const ext = file.name.split(".").pop();
-    const fileName = `${crypto.randomUUID()}.${ext}`;
+    // For .gltf files, upload all files into a shared folder so references work
+    const folderPrefix = crypto.randomUUID();
+    const mainFileName = `${folderPrefix}/${file.name}`;
+
     const { error: uploadErr } = await supabase.storage
       .from("yacimiento-images")
-      .upload(fileName, file);
+      .upload(mainFileName, file);
 
     if (uploadErr) {
-      setError("Error al subir el archivo. Inténtalo de nuevo.");
+      setError("Error al subir el archivo principal. Inténtalo de nuevo.");
       setUploading(false);
       return;
     }
 
+    // Upload extra files (e.g. .bin, textures) into the same folder
+    if (extraFiles.length > 0) {
+      for (const ef of extraFiles) {
+        const { error: extraErr } = await supabase.storage
+          .from("yacimiento-images")
+          .upload(`${folderPrefix}/${ef.name}`, ef);
+        if (extraErr) {
+          setError(`Error al subir "${ef.name}". Inténtalo de nuevo.`);
+          setUploading(false);
+          return;
+        }
+      }
+    }
+
     const { data: publicData } = supabase.storage
       .from("yacimiento-images")
-      .getPublicUrl(fileName);
+      .getPublicUrl(mainFileName);
 
     const archivo_url = publicData.publicUrl;
     const thumbnail_url = file.type.startsWith("image/") ? archivo_url : null;
