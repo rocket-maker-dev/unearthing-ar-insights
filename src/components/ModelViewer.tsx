@@ -101,10 +101,11 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
   const [wireframe, setWireframe] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [modelError, setModelError] = useState(false);
   const controlsRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const activeUrl = localUrl || modelUrl || null;
+  const activeUrl = modelError ? null : (localUrl || modelUrl || null);
 
   const handleFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
