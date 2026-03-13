@@ -29,13 +29,13 @@ const ProblemSection = () => (
           El problema
         </p>
         <h2 className="text-3xl md:text-5xl font-bold mb-6">
-          ¿Qué problema resolvemos?
+          Solo vemos piedras
         </h2>
+        <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-6">
+          Cuando visitamos un yacimiento arqueológico, un museo o un centro de interpretación, muchas veces solo vemos piedras y ruinas. Todo debe mantenerse inalterable para su conservación. Pero con Realidad Aumentada podemos superponer reconstrucciones 3D, paneles informativos y animaciones sobre el espacio real, enriqueciendo la experiencia de forma didáctica sin tocar ni alterar nada.
+        </p>
         <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-12">
-          En una excavación, mover un objeto antes de documentarlo bien puede
-          destruir información para siempre. Nosotros creamos una herramienta AR
-          que permite a cualquier persona con un iPhone ver los objetos en su
-          posición exacta, incluso después de haberlos extraído.
+          Nuestra plataforma abierta de experiencias AR permite a cualquier museo o yacimiento subir y compartir contenido didáctico AR: reconstrucciones 3D, paneles informativos y animaciones superpuestas sobre el espacio real.
         </p>
       </AnimatedSection>
 
