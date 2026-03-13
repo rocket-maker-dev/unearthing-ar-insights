@@ -368,6 +368,8 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   const [loading, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
   const [selected3DId, setSelected3DId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const { isAdmin } = useAuth();
 
   const fetchData = async () => {
     const { data: y } = await supabase.from("yacimientos").select("*").eq("id", id).single();
