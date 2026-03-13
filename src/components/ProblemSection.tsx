@@ -7,7 +7,7 @@ const features = [
   {
     icon: Radar,
     title: "Escanear",
-    desc: "Capturamos el espacio con LiDAR (Scaniverse) creando una malla 3D milimétrica",
+    desc: "Capturamos el espacio con Scaniverse creando una malla 3D milimétrica",
   },
   {
     icon: Eye,
