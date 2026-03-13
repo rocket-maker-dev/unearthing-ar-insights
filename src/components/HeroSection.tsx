@@ -1,6 +1,7 @@
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
 import arHero from "@/assets/ar_excavation_hero.png";
+import logo from "@/assets/logo_vision_maker_lab.png";
 
 const HeroSection = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
