@@ -178,7 +178,7 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
         <Suspense fallback={null}>
           <Environment preset="apartment" />
           {activeUrl ? (
-            <GLTFModel url={activeUrl} wireframe={wireframe} />
+            <GLTFModel url={activeUrl} wireframe={wireframe} onError={() => setModelError(true)} />
           ) : (
             <HypocaustumPillars wireframe={wireframe} />
           )}
