@@ -289,16 +289,18 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   const [yacimiento, setYacimiento] = useState<Yacimiento | null>(null);
   const [items, setItems] = useState<YacimientoItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showUpload, setShowUpload] = useState(false);
+
+  const fetchData = async () => {
+    const { data: y } = await supabase.from("yacimientos").select("*").eq("id", id).single();
+    if (y) setYacimiento(y as Yacimiento);
+    const { data: its } = await supabase.from("yacimiento_items").select("*").eq("yacimiento_id", id).order("orden");
+    if (its) setItems(its as YacimientoItem[]);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data: y } = await supabase.from("yacimientos").select("*").eq("id", id).single();
-      if (y) setYacimiento(y as Yacimiento);
-      const { data: its } = await supabase.from("yacimiento_items").select("*").eq("yacimiento_id", id).order("orden");
-      if (its) setItems(its as YacimientoItem[]);
-      setLoading(false);
-    };
-    fetch();
+    fetchData();
   }, [id]);
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Cargando...</div>;
