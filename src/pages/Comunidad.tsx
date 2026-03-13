@@ -75,6 +75,215 @@ const YacimientoCard = ({ y, onClick }: { y: Yacimiento; onClick: () => void }) 
   </button>
 );
 
+// ===== UPLOAD DIALOG =====
+const tipoOptions = [
+  { value: "imagen", label: "Imagen / Montaje AR", icon: Image, accept: "image/*" },
+  { value: "modelo_3d", label: "Modelo 3D (.glb/.gltf)", icon: Box, accept: ".glb,.gltf" },
+  { value: "video", label: "Vídeo", icon: Film, accept: "video/*" },
+  { value: "panel_info", label: "Panel informativo", icon: FileText, accept: "image/*,.pdf" },
+];
+
+const UploadDialog = ({
+  yacimientoId,
+  onClose,
+  onUploaded,
+}: {
+  yacimientoId: string;
+  onClose: () => void;
+  onUploaded: () => void;
+}) => {
+  const [tipo, setTipo] = useState("imagen");
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const selectedTipo = tipoOptions.find((t) => t.value === tipo)!;
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setFile(f);
+    if (f.type.startsWith("image/")) {
+      setPreview(URL.createObjectURL(f));
+    } else {
+      setPreview(null);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file || !titulo.trim()) {
+      setError("Título y archivo son obligatorios.");
+      return;
+    }
+    setUploading(true);
+    setError("");
+
+    const ext = file.name.split(".").pop();
+    const fileName = `${crypto.randomUUID()}.${ext}`;
+    const { error: uploadErr } = await supabase.storage
+      .from("yacimiento-images")
+      .upload(fileName, file);
+
+    if (uploadErr) {
+      setError("Error al subir el archivo. Inténtalo de nuevo.");
+      setUploading(false);
+      return;
+    }
+
+    const { data: publicData } = supabase.storage
+      .from("yacimiento-images")
+      .getPublicUrl(fileName);
+
+    const archivo_url = publicData.publicUrl;
+    const thumbnail_url = file.type.startsWith("image/") ? archivo_url : null;
+
+    const { error: insertErr } = await supabase.from("yacimiento_items").insert({
+      yacimiento_id: yacimientoId,
+      tipo,
+      titulo: titulo.trim(),
+      descripcion: descripcion.trim() || null,
+      archivo_url,
+      thumbnail_url,
+    } as any);
+
+    if (insertErr) {
+      setError("Error al guardar. Inténtalo de nuevo.");
+      setUploading(false);
+      return;
+    }
+
+    setUploading(false);
+    onUploaded();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4" onClick={onClose}>
+      <div
+        className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h3 className="text-lg font-bold">Subir contenido</h3>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-secondary transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* Tipo */}
+          <div>
+            <label className="text-sm font-medium mb-2 block">Tipo de contenido</label>
+            <div className="grid grid-cols-2 gap-2">
+              {tipoOptions.map((t) => {
+                const Icon = t.icon;
+                return (
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => { setTipo(t.value); setFile(null); setPreview(null); }}
+                    className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm transition-colors ${
+                      tipo === t.value
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    <Icon size={16} />
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Título */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Título *</label>
+            <input
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
+              placeholder="Ej: Animación termas romano"
+              required
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+            />
+          </div>
+
+          {/* Descripción */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Descripción</label>
+            <textarea
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              rows={2}
+              placeholder="Breve descripción del contenido…"
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
+            />
+          </div>
+
+          {/* Archivo */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Archivo *</label>
+            <input
+              ref={fileRef}
+              type="file"
+              accept={selectedTipo.accept}
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            {file ? (
+              <div className="flex items-center gap-3 rounded-lg border border-border bg-background px-4 py-3">
+                {preview && (
+                  <img src={preview} alt="Preview" className="w-12 h-12 rounded object-cover" />
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{file.name}</p>
+                  <p className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(1)} MB</p>
+                </div>
+                <button type="button" onClick={() => { setFile(null); setPreview(null); }} className="text-muted-foreground hover:text-foreground">
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-background px-4 py-6 text-sm text-muted-foreground hover:border-primary/50 transition-colors w-full justify-center"
+              >
+                <Upload size={20} />
+                Seleccionar archivo ({selectedTipo.label})
+              </button>
+            )}
+          </div>
+
+          {error && (
+            <p className="text-sm text-red-400 flex items-center gap-1.5">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            disabled={uploading}
+            className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3.5 rounded-lg hover:brightness-110 transition-all disabled:opacity-50"
+          >
+            {uploading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" /> Subiendo…
+              </>
+            ) : (
+              <>
+                <Upload size={18} /> Subir contenido
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // ===== DETAIL PAGE =====
 const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) => {
   const [yacimiento, setYacimiento] = useState<Yacimiento | null>(null);
