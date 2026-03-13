@@ -52,7 +52,7 @@ const Index = () => (
     <ArchitectureSection />
     <ModelViewerPreview />
     <ReplicateSection />
-    <YacimientosSection />
+    
     <TeamSection />
     <Footer />
   </>
