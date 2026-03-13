@@ -96,12 +96,15 @@ const UploadDialog = ({
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [extraFiles, setExtraFiles] = useState<File[]>([]);
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const extraFileRef = useRef<HTMLInputElement>(null);
 
   const selectedTipo = tipoOptions.find((t) => t.value === tipo)!;
+  const is3D = tipo === "modelo_3d";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
@@ -114,6 +117,12 @@ const UploadDialog = ({
     }
   };
 
+  const handleExtraFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    setExtraFiles(Array.from(files));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !titulo.trim()) {
@@ -123,21 +132,37 @@ const UploadDialog = ({
     setUploading(true);
     setError("");
 
-    const ext = file.name.split(".").pop();
-    const fileName = `${crypto.randomUUID()}.${ext}`;
+    // For .gltf files, upload all files into a shared folder so references work
+    const folderPrefix = crypto.randomUUID();
+    const mainFileName = `${folderPrefix}/${file.name}`;
+
     const { error: uploadErr } = await supabase.storage
       .from("yacimiento-images")
-      .upload(fileName, file);
+      .upload(mainFileName, file);
 
     if (uploadErr) {
-      setError("Error al subir el archivo. Inténtalo de nuevo.");
+      setError("Error al subir el archivo principal. Inténtalo de nuevo.");
       setUploading(false);
       return;
     }
 
+    // Upload extra files (e.g. .bin, textures) into the same folder
+    if (extraFiles.length > 0) {
+      for (const ef of extraFiles) {
+        const { error: extraErr } = await supabase.storage
+          .from("yacimiento-images")
+          .upload(`${folderPrefix}/${ef.name}`, ef);
+        if (extraErr) {
+          setError(`Error al subir "${ef.name}". Inténtalo de nuevo.`);
+          setUploading(false);
+          return;
+        }
+      }
+    }
+
     const { data: publicData } = supabase.storage
       .from("yacimiento-images")
-      .getPublicUrl(fileName);
+      .getPublicUrl(mainFileName);
 
     const archivo_url = publicData.publicUrl;
     const thumbnail_url = file.type.startsWith("image/") ? archivo_url : null;
@@ -185,7 +210,7 @@ const UploadDialog = ({
                   <button
                     key={t.value}
                     type="button"
-                    onClick={() => { setTipo(t.value); setFile(null); setPreview(null); }}
+                    onClick={() => { setTipo(t.value); setFile(null); setPreview(null); setExtraFiles([]); }}
                     className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm transition-colors ${
                       tipo === t.value
                         ? "border-primary bg-primary/10 text-primary"
@@ -259,8 +284,53 @@ const UploadDialog = ({
             )}
           </div>
 
+          {/* Extra files for 3D models (.bin, textures) */}
+          {is3D && file && (
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">Archivos adicionales (.bin, texturas…)</label>
+              <input
+                ref={extraFileRef}
+                type="file"
+                multiple
+                accept=".bin,.png,.jpg,.jpeg,.ktx2"
+                onChange={handleExtraFilesChange}
+                className="hidden"
+              />
+              {extraFiles.length > 0 ? (
+                <div className="space-y-2">
+                  {extraFiles.map((ef, i) => (
+                    <div key={i} className="flex items-center gap-3 rounded-lg border border-border bg-background px-4 py-2 text-sm">
+                      <FileText size={14} className="text-primary shrink-0" />
+                      <span className="truncate flex-1">{ef.name}</span>
+                      <span className="text-xs text-muted-foreground">{(ef.size / 1024 / 1024).toFixed(1)} MB</span>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => { setExtraFiles([]); }}
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Quitar archivos adicionales
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => extraFileRef.current?.click()}
+                  className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-background px-4 py-4 text-sm text-muted-foreground hover:border-primary/50 transition-colors w-full justify-center"
+                >
+                  <Plus size={16} />
+                  Añadir .bin, texturas u otros archivos del modelo
+                </button>
+              )}
+              <p className="text-xs text-muted-foreground mt-1.5">
+                Si tu modelo .gltf referencia archivos externos (animacion0.bin, texturas…), súbelos aquí.
+              </p>
+            </div>
+          )}
+
           {error && (
-            <p className="text-sm text-red-400 flex items-center gap-1.5">{error}</p>
+            <p className="text-sm text-destructive flex items-center gap-1.5">{error}</p>
           )}
 
           <button
