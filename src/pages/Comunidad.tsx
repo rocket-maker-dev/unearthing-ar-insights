@@ -329,8 +329,8 @@ const UploadDialog = ({
             </div>
           )}
 
-
-            <p className="text-sm text-red-400 flex items-center gap-1.5">{error}</p>
+          {error && (
+            <p className="text-sm text-destructive flex items-center gap-1.5">{error}</p>
           )}
 
           <button
