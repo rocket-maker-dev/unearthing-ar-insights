@@ -10,12 +10,12 @@ import roleBuilderCode from "@/assets/role_builder_code.jpg";
 import roleConstructor from "@/assets/role_constructor.jpg";
 
 const teamMembers = [
-  { id: 0, name: "Antonio", age: 15, role: "Diseñador Web y Presentador", icon: PenTool, bg: roleDesigner },
-  { id: 1, name: "Samu", age: 13, role: "Programador y Presentador", icon: Code, bg: roleProgrammer },
-  { id: 2, name: "Álvaro", age: 13, role: "Programador y Animador", icon: Clapperboard, bg: roleAnimator },
-  { id: 3, name: "Diego", age: 14, role: "Programador de Robótica", icon: Bot, bg: roleRobotics },
-  { id: 4, name: "Xabi", age: 13, role: "Programador y Constructor", icon: SearchCheck, bg: roleBuilderCode },
-  { id: 5, name: "Miguel Tatu", age: 13, role: "Constructor de Robótica", icon: Wrench, bg: roleConstructor },
+  { id: 0, name: "Antonio", age: 15, role: "Programador Web", icon: Code, bg: roleDesigner },
+  { id: 1, name: "Samu", age: 13, role: "Diseño 3D y P. Python", icon: PenTool, bg: roleProgrammer },
+  { id: 2, name: "Álvaro", age: 13, role: "P. Python y Animación 3D", icon: Clapperboard, bg: roleAnimator },
+  { id: 3, name: "Diego", age: 14, role: "P. Python", icon: Code, bg: roleRobotics },
+  { id: 4, name: "Xabi", age: 13, role: "Ingeniero y P. Python", icon: Wrench, bg: roleBuilderCode },
+  { id: 5, name: "Miguel Tatu", age: 13, role: "Ingeniero", icon: Wrench, bg: roleConstructor },
 ];
 
 const TeamSection = () => {
