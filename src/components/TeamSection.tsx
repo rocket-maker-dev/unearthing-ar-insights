@@ -2,13 +2,20 @@ import { User, Send, PenTool, Code, Clapperboard, Bot, Wrench, SearchCheck } fro
 import AnimatedSection from "./AnimatedSection";
 import { useState } from "react";
 
+import roleDesigner from "@/assets/role_designer.jpg";
+import roleProgrammer from "@/assets/role_programmer.jpg";
+import roleAnimator from "@/assets/role_animator.jpg";
+import roleRobotics from "@/assets/role_robotics.jpg";
+import roleBuilderCode from "@/assets/role_builder_code.jpg";
+import roleConstructor from "@/assets/role_constructor.jpg";
+
 const teamMembers = [
-  { id: 0, name: "Antonio", age: 15, role: "Diseñador Web y Presentador", icon: PenTool },
-  { id: 1, name: "Samu", age: 13, role: "Programador y Presentador", icon: Code },
-  { id: 2, name: "Álvaro", age: 13, role: "Programador y Animador", icon: Clapperboard },
-  { id: 3, name: "Diego", age: 14, role: "Programador de Robótica", icon: Bot },
-  { id: 4, name: "Xabi", age: 13, role: "Programador y Constructor", icon: SearchCheck },
-  { id: 5, name: "Miguel Tatu", age: 13, role: "Constructor de Robótica", icon: Wrench },
+  { id: 0, name: "Antonio", age: 15, role: "Diseñador Web y Presentador", icon: PenTool, bg: roleDesigner },
+  { id: 1, name: "Samu", age: 13, role: "Programador y Presentador", icon: Code, bg: roleProgrammer },
+  { id: 2, name: "Álvaro", age: 13, role: "Programador y Animador", icon: Clapperboard, bg: roleAnimator },
+  { id: 3, name: "Diego", age: 14, role: "Programador de Robótica", icon: Bot, bg: roleRobotics },
+  { id: 4, name: "Xabi", age: 13, role: "Programador y Constructor", icon: SearchCheck, bg: roleBuilderCode },
+  { id: 5, name: "Miguel Tatu", age: 13, role: "Constructor de Robótica", icon: Wrench, bg: roleConstructor },
 ];
 
 const TeamSection = () => {
@@ -44,19 +51,34 @@ const TeamSection = () => {
               return (
                 <div
                   key={m.id}
-                  className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6"
+                  className="group relative rounded-xl overflow-hidden border border-border h-56 sm:h-64"
                 >
-                  <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center">
-                    <Icon size={28} className="text-muted-foreground" />
+                  {/* Background image */}
+                  <img
+                    src={m.bg}
+                    alt={m.role}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Dark overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                  
+                  {/* Icon top-right */}
+                  <div className="absolute top-3 right-3 w-9 h-9 rounded-lg bg-primary/20 backdrop-blur-sm flex items-center justify-center border border-primary/20">
+                    <Icon size={18} className="text-primary" />
                   </div>
-                  <span className="text-sm font-medium text-center">
-                    {m.name}, {m.age} años
-                  </span>
-                  {m.role && (
-                    <span className="text-xs text-muted-foreground text-center">
+
+                  {/* Content bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-foreground leading-tight">
+                      {m.name}
+                    </h3>
+                    <p className="text-xs text-primary font-medium mt-1">
+                      {m.age} años
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
                       {m.role}
-                    </span>
-                  )}
+                    </p>
+                  </div>
                 </div>
               );
             })}
