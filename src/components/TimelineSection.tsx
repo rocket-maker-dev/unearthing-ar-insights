@@ -25,7 +25,7 @@ const steps = [
   {
     status: "success" as const,
     title: "WebXR + Scaniverse",
-    desc: "Tracking nativo del iPhone, sin servidor",
+    desc: "Tracking nativo con ARCore en Chrome, sin servidor",
   },
 ];
 

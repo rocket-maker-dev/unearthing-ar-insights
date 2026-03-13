@@ -1,10 +1,10 @@
 import { Github, Download, FileText } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 
-const diagram = `iPhone (Safari)
+const diagram = `Android (Chrome + ARCore)
     │
     ▼
-WebXR API — tracking nativo (cámara + giroscopio + LiDAR)
+WebXR API — tracking nativo (cámara + giroscopio + ARCore)
     │
     ▼
 Three.js — renderiza los objetos 3D en el espacio real

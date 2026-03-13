@@ -54,8 +54,8 @@ const HeroSection = () => (
         transition={{ delay: 0.6, duration: 0.7 }}
         className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed"
       >
-        Usamos Realidad Aumentada y escáneres LiDAR para visualizar hallazgos
-        arqueológicos antes de moverlos. Tecnología open source, hecha por
+        Usamos Realidad Aumentada con WebXR y ARCore para visualizar hallazgos
+        arqueológicos en su contexto original. Tecnología open source, hecha por
         estudiantes.
       </motion.p>
 

@@ -2,16 +2,16 @@ import { Smartphone, AppWindow, Globe, Code } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 
 const requirements = [
-  { icon: Smartphone, text: "iPhone con LiDAR (iPhone 12 Pro o superior)" },
-  { icon: AppWindow, text: "App Scaniverse (gratis en App Store)" },
-  { icon: Globe, text: "Safari (iOS 16+)" },
+  { icon: Smartphone, text: "Dispositivo Android compatible con ARCore" },
+  { icon: AppWindow, text: "App Scaniverse (gratis en Play Store)" },
+  { icon: Globe, text: "Chrome (Android)" },
   { icon: Code, text: "Nuestro código (GitHub, gratis)" },
 ];
 
 const steps = [
   "Escanea el espacio con Scaniverse → exporta como .glb",
   "Descarga nuestro código → sube tu archivo GLB",
-  "Abre la URL en Safari → toca el suelo → los objetos AR aparecen anclados al espacio",
+  "Abre la URL en Chrome → toca el suelo → los objetos AR aparecen anclados al espacio",
 ];
 
 const ReplicateSection = () => (

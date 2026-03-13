@@ -7,12 +7,12 @@ const features = [
   {
     icon: Radar,
     title: "Escanear",
-    desc: "Capturamos el espacio con LiDAR (Scaniverse) creando una malla 3D milimétrica",
+    desc: "Capturamos el espacio con Scaniverse creando una malla 3D milimétrica",
   },
   {
     icon: Eye,
     title: "Visualizar",
-    desc: "WebXR ancla los objetos al mundo real sin apps, solo con el navegador Safari",
+    desc: "WebXR ancla los objetos al mundo real sin apps, solo con Chrome y ARCore",
   },
   {
     icon: Link,
@@ -50,7 +50,7 @@ const ProblemSection = () => (
             />
             <div className="p-4 bg-card">
               <p className="text-sm font-medium text-foreground">AR en tiempo real</p>
-              <p className="text-xs text-muted-foreground">Apunta con tu iPhone y los hallazgos aparecen superpuestos al yacimiento real</p>
+              <p className="text-xs text-muted-foreground">Apunta con tu Android y los hallazgos aparecen superpuestos al yacimiento real</p>
             </div>
           </div>
           <div className="rounded-xl overflow-hidden border border-border group">
