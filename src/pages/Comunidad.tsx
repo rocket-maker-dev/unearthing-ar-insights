@@ -266,7 +266,7 @@ const UploadDialog = ({
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{file.name}</p>
-                  <p className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(1)} MB</p>
+                  <p className="text-xs text-muted-foreground">{file.size < 1024 ? `${file.size} B` : file.size < 1048576 ? `${(file.size / 1024).toFixed(0)} KB` : `${(file.size / 1048576).toFixed(1)} MB`}</p>
                 </div>
                 <button type="button" onClick={() => { setFile(null); setPreview(null); }} className="text-muted-foreground hover:text-foreground">
                   <X size={16} />
@@ -360,6 +360,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   const [items, setItems] = useState<YacimientoItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
+  const [selected3DId, setSelected3DId] = useState<string | null>(null);
 
   const fetchData = async () => {
     const { data: y } = await supabase.from("yacimientos").select("*").eq("id", id).single();
@@ -472,12 +473,38 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
         )}
 
         {/* Visor 3D */}
-        <div className="border-t border-border pt-8 mt-8">
-          <h2 className="text-2xl font-bold mb-6">Visor 3D</h2>
-          <ModelViewer
-            modelUrl={items.find((i) => i.tipo === "modelo_3d")?.archivo_url || undefined}
-          />
-        </div>
+        {(() => {
+          const models3d = items.filter((i) => i.tipo === "modelo_3d" && i.archivo_url);
+          return (
+            <div className="border-t border-border pt-8 mt-8">
+              <h2 className="text-2xl font-bold mb-4">Visor 3D</h2>
+              {models3d.length > 1 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {models3d.map((m) => (
+                    <button
+                      key={m.id}
+                      onClick={() => setSelected3DId(m.id)}
+                      className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${
+                        (selected3DId || models3d[models3d.length - 1].id) === m.id
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-border text-muted-foreground hover:border-primary/30"
+                      }`}
+                    >
+                      {m.titulo}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <ModelViewer
+                modelUrl={
+                  models3d.length > 0
+                    ? (models3d.find((m) => m.id === selected3DId) || models3d[models3d.length - 1])?.archivo_url || undefined
+                    : undefined
+                }
+              />
+            </div>
+          );
+        })()}
 
         {/* Datos de excavación */}
         <div className="border-t border-border pt-8 mt-8">
