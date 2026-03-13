@@ -1,5 +1,7 @@
 import { Radar, Eye, Link } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
+import arPhone from "@/assets/ar_phone_ruins.png";
+import arArtifacts from "@/assets/ar_artifacts_float.png";
 
 const features = [
   {
@@ -21,7 +23,7 @@ const features = [
 
 const ProblemSection = () => (
   <section id="problema" className="section-padding">
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       <AnimatedSection>
         <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-4">
           El problema
@@ -29,7 +31,7 @@ const ProblemSection = () => (
         <h2 className="text-3xl md:text-5xl font-bold mb-6">
           ¿Qué problema resolvemos?
         </h2>
-        <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-16">
+        <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-12">
           En una excavación, mover un objeto antes de documentarlo bien puede
           destruir información para siempre. Nosotros creamos una herramienta AR
           que permite a cualquier persona con un iPhone ver los objetos en su
@@ -37,9 +39,37 @@ const ProblemSection = () => (
         </p>
       </AnimatedSection>
 
+      {/* Image showcase */}
+      <AnimatedSection delay={0.1}>
+        <div className="grid md:grid-cols-2 gap-6 mb-16">
+          <div className="rounded-xl overflow-hidden border border-border group">
+            <img
+              src={arPhone}
+              alt="Usando un teléfono móvil para ver ruinas con realidad aumentada"
+              className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="p-4 bg-card">
+              <p className="text-sm font-medium text-foreground">AR en tiempo real</p>
+              <p className="text-xs text-muted-foreground">Apunta con tu iPhone y los hallazgos aparecen superpuestos al yacimiento real</p>
+            </div>
+          </div>
+          <div className="rounded-xl overflow-hidden border border-border group">
+            <img
+              src={arArtifacts}
+              alt="Artefactos arqueológicos con hologramas de reconstrucción 3D"
+              className="w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="p-4 bg-card">
+              <p className="text-sm font-medium text-foreground">Análisis de artefactos</p>
+              <p className="text-xs text-muted-foreground">Reconstrucción 3D de piezas fragmentadas con datos de origen y datación</p>
+            </div>
+          </div>
+        </div>
+      </AnimatedSection>
+
       <div className="grid md:grid-cols-3 gap-6">
         {features.map((f, i) => (
-          <AnimatedSection key={f.title} delay={i * 0.15}>
+          <AnimatedSection key={f.title} delay={i * 0.15 + 0.2}>
             <div className="group rounded-xl border border-border bg-card p-8 hover:border-primary/40 transition-all hover:shadow-[0_0_30px_hsla(217,91%,60%,0.08)]">
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5">
                 <f.icon size={24} className="text-primary" />
