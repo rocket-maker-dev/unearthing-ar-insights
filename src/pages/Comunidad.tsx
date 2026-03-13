@@ -472,12 +472,38 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
         )}
 
         {/* Visor 3D */}
-        <div className="border-t border-border pt-8 mt-8">
-          <h2 className="text-2xl font-bold mb-6">Visor 3D</h2>
-          <ModelViewer
-            modelUrl={items.find((i) => i.tipo === "modelo_3d")?.archivo_url || undefined}
-          />
-        </div>
+        {(() => {
+          const models3d = items.filter((i) => i.tipo === "modelo_3d" && i.archivo_url);
+          return (
+            <div className="border-t border-border pt-8 mt-8">
+              <h2 className="text-2xl font-bold mb-4">Visor 3D</h2>
+              {models3d.length > 1 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {models3d.map((m) => (
+                    <button
+                      key={m.id}
+                      onClick={() => setSelected3DId(m.id)}
+                      className={`text-sm px-3 py-1.5 rounded-lg border transition-colors ${
+                        (selected3DId || models3d[models3d.length - 1].id) === m.id
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-border text-muted-foreground hover:border-primary/30"
+                      }`}
+                    >
+                      {m.titulo}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <ModelViewer
+                modelUrl={
+                  models3d.length > 0
+                    ? (models3d.find((m) => m.id === selected3DId) || models3d[models3d.length - 1])?.archivo_url || undefined
+                    : undefined
+                }
+              />
+            </div>
+          );
+        })()}
 
         {/* Datos de excavación */}
         <div className="border-t border-border pt-8 mt-8">
