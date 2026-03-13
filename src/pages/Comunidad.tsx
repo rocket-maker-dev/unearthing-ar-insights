@@ -383,6 +383,14 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
     fetchData();
   }, [id]);
 
+  const handleDeleteItem = async (itemId: string) => {
+    if (!confirm("¿Seguro que quieres eliminar este recurso?")) return;
+    setDeleting(itemId);
+    await supabase.from("yacimiento_items").delete().eq("id", itemId);
+    setItems((prev) => prev.filter((i) => i.id !== itemId));
+    setDeleting(null);
+  };
+
   if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Cargando...</div>;
   if (!yacimiento) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">No encontrado</div>;
 
