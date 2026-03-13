@@ -1,19 +1,22 @@
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
-import arHero from "@/assets/ar_excavation_hero.png";
+import heroVideo from "@/assets/hero-video.mp4";
 import logo from "@/assets/logo_vision_maker_lab.png";
 
 const HeroSection = () => (
   <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-    {/* Background image with overlay */}
+    {/* Background video with overlay */}
     <div className="absolute inset-0">
-      <img
-        src={arHero}
-        alt="Excavación arqueológica con hologramas AR superpuestos"
+      <video
+        src={heroVideo}
+        autoPlay
+        loop
+        muted
+        playsInline
         className="w-full h-full object-cover"
       />
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
+      <div className="absolute inset-0 bg-background/60" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
     </div>
 
     {/* Radial glow */}
