@@ -5,6 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AnimatedSection from "@/components/AnimatedSection";
+import ModelViewer from "@/components/ModelViewer";
+import CSVViewer from "@/components/CSVViewer";
+import ARGallery from "@/components/ARGallery";
 
 type Yacimiento = {
   id: string;
