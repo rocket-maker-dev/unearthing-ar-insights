@@ -1,8 +1,20 @@
-import { ArrowDown, Play } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
+import arHero from "@/assets/ar_excavation_hero.png";
 
 const HeroSection = () => (
-  <section className="relative min-h-screen flex items-center justify-center grid-bg overflow-hidden">
+  <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    {/* Background image with overlay */}
+    <div className="absolute inset-0">
+      <img
+        src={arHero}
+        alt="Excavación arqueológica con hologramas AR superpuestos"
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background" />
+    </div>
+
     {/* Radial glow */}
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
 
@@ -41,7 +53,7 @@ const HeroSection = () => (
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+        className="flex flex-col sm:flex-row items-center justify-center gap-4"
       >
         <a
           href="#problema"
@@ -49,22 +61,6 @@ const HeroSection = () => (
         >
           Ver cómo funciona <ArrowDown size={18} />
         </a>
-      </motion.div>
-
-      {/* Video placeholder */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="relative max-w-2xl mx-auto aspect-video rounded-xl border border-border bg-card flex items-center justify-center group cursor-pointer hover:border-primary/40 transition-colors"
-      >
-        <div className="absolute inset-0 rounded-xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-        <div className="flex flex-col items-center gap-3 text-muted-foreground">
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-            <Play size={28} className="text-primary ml-1" />
-          </div>
-          <span className="text-sm font-medium">Demo AR aquí</span>
-        </div>
       </motion.div>
     </div>
   </section>
