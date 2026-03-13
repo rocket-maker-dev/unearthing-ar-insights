@@ -3,11 +3,12 @@ import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo_vision_maker_lab.png";
 
 const links = [
-  { label: "Problema", href: "#problema" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Arquitectura", href: "#arquitectura" },
-  { label: "Replica", href: "#replica" },
-  { label: "Equipo", href: "#equipo" },
+  { label: "Problema", href: "/#problema" },
+  { label: "Proceso", href: "/#proceso" },
+  { label: "Arquitectura", href: "/#arquitectura" },
+  { label: "Replica", href: "/#replica" },
+  { label: "Comunidad", href: "/comunidad" },
+  { label: "Equipo", href: "/#equipo" },
 ];
 
 const Navbar = () => {
@@ -27,7 +28,7 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        <a href="#" className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-3">
           <img src={logo} alt="Vision Maker Lab" className="h-10 w-10 rounded-full object-cover" />
           <span className="text-lg font-bold tracking-tight">
             <span className="text-gradient">UNEARTHED</span>{" "}
