@@ -47,8 +47,11 @@ const HypocaustumPillars = ({ wireframe }: { wireframe: boolean }) => {
 };
 
 // ===== GLTF model loader =====
-const GLTFModel = ({ url, wireframe }: { url: string; wireframe: boolean }) => {
-  const { scene } = useGLTF(url);
+const GLTFModel = ({ url, wireframe, onError }: { url: string; wireframe: boolean; onError?: () => void }) => {
+  const { scene } = useGLTF(url, undefined, undefined, (e) => {
+    console.error("GLTF load error:", e);
+    onError?.();
+  });
 
   useMemo(() => {
     scene.traverse((child) => {
@@ -98,10 +101,11 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
   const [wireframe, setWireframe] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [modelError, setModelError] = useState(false);
   const controlsRef = useRef<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const activeUrl = localUrl || modelUrl || null;
+  const activeUrl = modelError ? null : (localUrl || modelUrl || null);
 
   const handleFile = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -174,7 +178,7 @@ const ModelViewer = ({ modelUrl, className = "" }: ModelViewerProps) => {
         <Suspense fallback={null}>
           <Environment preset="apartment" />
           {activeUrl ? (
-            <GLTFModel url={activeUrl} wireframe={wireframe} />
+            <GLTFModel url={activeUrl} wireframe={wireframe} onError={() => setModelError(true)} />
           ) : (
             <HypocaustumPillars wireframe={wireframe} />
           )}

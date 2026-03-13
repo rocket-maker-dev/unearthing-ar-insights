@@ -1,0 +1,1 @@
+DELETE FROM yacimiento_items WHERE id = 'eed8d529-acf0-4eaa-8785-e7b60fe6897b';
