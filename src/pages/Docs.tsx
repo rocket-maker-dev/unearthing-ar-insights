@@ -7,6 +7,17 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 
+import React from "react";
+
+const getTextFromChildren = (children: React.ReactNode): string => {
+  if (typeof children === "string") return children;
+  if (typeof children === "number") return String(children);
+  if (Array.isArray(children)) return children.map(getTextFromChildren).join("");
+  if (React.isValidElement(children) && children.props?.children)
+    return getTextFromChildren(children.props.children);
+  return "";
+};
+
 const slugify = (text: string) =>
   text
     .replace(/[^\p{L}\p{N}\s-]/gu, "") // keep letters (any language), numbers, spaces, hyphens
