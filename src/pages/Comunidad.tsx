@@ -459,8 +459,10 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
                 const Icon = tipoIcons[item.tipo] || FileText;
                 return (
                   <div key={item.id} className="rounded-xl border border-border bg-card overflow-hidden group">
-                    <div className="h-40 overflow-hidden bg-secondary">
-                      {item.tipo === "modelo_3d" && item.archivo_url ? (
+                    <div className="h-40 overflow-hidden bg-secondary relative">
+                      {item.tipo === "video" && item.archivo_url ? (
+                        <VideoCardPlayer url={item.archivo_url} />
+                      ) : item.tipo === "modelo_3d" && item.archivo_url ? (
                         <ModelViewer
                           modelUrl={item.archivo_url}
                           compact
