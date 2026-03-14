@@ -1,7 +1,7 @@
-# 🔭 AR Archaeology Platform — Developer Documentation
+# UNEARTHED AR — Documentación técnica
 
-> Plataforma open source de Realidad Aumentada para excavaciones arqueológicas.
-> Desarrollada por Maker Lab (Espacio Vivo, Ferrol) para FIRST LEGO League 2026.
+> Plataforma open source de Realidad Aumentada para excavaciones arqueológicas.  
+> Desarrollada por **Vision Maker Lab** (Espacio Vivo, Ferrol) para **FIRST LEGO League 2026**.
 
 ---
 
@@ -122,8 +122,8 @@ Solo necesitamos darle los objetos 3D para renderizar.
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/maker-lab-ferrol/ar-archaeology.git
-cd ar-archaeology
+git clone https://github.com/rocket-maker-dev/unearthing-ar-insights.git
+cd unearthing-ar-insights
 
 # 2. Instalar dependencias (opcional, para dev server)
 npm install
@@ -961,24 +961,24 @@ El tracking lo hace ARKit → no tenemos control directo. Pero podemos mejorar l
 ```
 MIT License
 
-Copyright (c) 2026 Maker Lab - Espacio Vivo, Ferrol
+Copyright (c) 2026 Vision Maker Lab - Espacio Vivo, Ferrol
 
 Se permite cualquier uso, modificación y distribución.
-Construido para que otros lo repliquen y mejoren. 🌍
+Construido para que otros lo repliquen y mejoren.
 ```
 
 ---
 
 ## Links
 
-- 📄 **Web del proyecto:** [rocketmaker.app/fll](https://rocketmaker.app/fll/)
-- 💻 **Código fuente:** [github.com/maker-lab-ferrol/ar-archaeology](https://github.com/maker-lab-ferrol/ar-archaeology)
-- 🏫 **Maker Lab:** [espaciovivo.gal](https://espaciovivo.gal)
-- 📡 **Scaniverse:** [scaniverse.com](https://scaniverse.com)
-- 🎮 **Three.js docs:** [threejs.org/docs](https://threejs.org/docs/)
-- 🌐 **WebXR spec:** [immersive-web.github.io](https://immersive-web.github.io/webxr/)
+- **Web del proyecto:** [unearthed.lovable.app](https://unearthed.lovable.app)
+- **Código fuente:** [github.com/rocket-maker-dev/unearthing-ar-insights](https://github.com/rocket-maker-dev/unearthing-ar-insights)
+- **Vision Maker Lab:** [espaciovivo.gal](https://espaciovivo.gal)
+- **Scaniverse:** [scaniverse.com](https://scaniverse.com)
+- **Three.js docs:** [threejs.org/docs](https://threejs.org/docs/)
+- **WebXR spec:** [immersive-web.github.io](https://immersive-web.github.io/webxr/)
 
 ---
 
-> 🔭 *Construido por estudiantes de Maker Lab (Espacio Vivo, Ferrol) para FIRST LEGO League 2026.*
+> *Construido por estudiantes de Vision Maker Lab (Espacio Vivo, Ferrol) para FIRST LEGO League 2026.*  
 > *Tecnología open source — comparte, mejora, aprende.*

@@ -150,3 +150,31 @@ body::after {
 .ambient-particles span:nth-child(6) { left: 25%; top: 60%; animation: particle-drift 7s ease-in-out 5s infinite; }
 .ambient-particles span:nth-child(7) { left: 65%; top: 50%; animation: particle-float 13s ease-in-out 6s infinite; }
 .ambient-particles span:nth-child(8) { left: 45%; top: 40%; animation: particle-drift 9s ease-in-out 0.5s infinite; }
+
+/* ===== Docs prose styles ===== */
+.docs-prose .hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.docs-prose pre code {
+  color: hsl(var(--foreground));
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+}
+
+.docs-prose .hljs-keyword,
+.docs-prose .hljs-selector-tag { color: hsl(280 80% 70%); }
+.docs-prose .hljs-string,
+.docs-prose .hljs-addition { color: hsl(120 50% 65%); }
+.docs-prose .hljs-comment { color: hsl(var(--muted-foreground)); font-style: italic; }
+.docs-prose .hljs-number,
+.docs-prose .hljs-literal { color: hsl(30 90% 65%); }
+.docs-prose .hljs-function .hljs-title,
+.docs-prose .hljs-title.function_ { color: hsl(200 80% 70%); }
+.docs-prose .hljs-built_in { color: hsl(50 80% 65%); }
+.docs-prose .hljs-attr,
+.docs-prose .hljs-attribute { color: hsl(170 70% 60%); }
+.docs-prose .hljs-meta { color: hsl(var(--muted-foreground)); }
+.docs-prose .hljs-regexp { color: hsl(0 70% 65%); }
+.docs-prose .hljs-variable { color: hsl(var(--foreground)); }
+.docs-prose .hljs-params { color: hsl(var(--foreground) / 0.8); }

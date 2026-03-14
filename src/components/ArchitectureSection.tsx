@@ -15,7 +15,7 @@ Archivo GLB — malla 3D del espacio generada por Scaniverse`;
 const buttons = [
   { icon: Github, label: "Ver en GitHub", href: "https://github.com/rocket-maker-dev/unearthing-ar-insights" },
   { icon: Download, label: "Descargar demo", href: "#" },
-  { icon: FileText, label: "Documentación", href: "/docs/DOCS.md" },
+  { icon: FileText, label: "Documentación", href: "/docs" },
 ];
 
 const ArchitectureSection = () => (
