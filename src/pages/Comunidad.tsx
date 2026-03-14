@@ -623,7 +623,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
 
         {/* Datos de excavación */}
         <div className="border-t border-border pt-8 mt-8">
-          <h2 className="text-2xl font-bold mb-6">Datos de excavación</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("community.excavation_data")}</h2>
           <CSVViewer />
         </div>
 
