@@ -19,6 +19,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <BackgroundMusic />
         {/* Ambient floating particles */}
         <div className="ambient-particles">
           <span /><span /><span /><span />
