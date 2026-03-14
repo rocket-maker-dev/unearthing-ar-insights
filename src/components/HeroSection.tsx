@@ -1,5 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroVideo from "@/assets/hero-video.mp4";
 import logo from "@/assets/logo_vision_maker_lab.png";
 

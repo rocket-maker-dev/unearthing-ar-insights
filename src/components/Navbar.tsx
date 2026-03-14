@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, LogIn, LogOut, Shield } from "lucide-react";
 import logo from "@/assets/logo_vision_maker_lab.png";
 import { useAuth } from "@/hooks/useAuth";
