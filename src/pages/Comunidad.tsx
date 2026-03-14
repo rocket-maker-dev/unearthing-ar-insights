@@ -361,6 +361,47 @@ const UploadDialog = ({
   );
 };
 
+// ===== INLINE VIDEO PLAYER =====
+const VideoCardPlayer = ({ url }: { url: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      v.play().catch(() => {});
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
+  }, []);
+
+  return (
+    <div className="relative w-full h-full cursor-pointer" onClick={toggle}>
+      <video
+        ref={videoRef}
+        src={url}
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        className="w-full h-full object-cover"
+      />
+      <div
+        className={`absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity ${
+          playing ? "opacity-0 hover:opacity-100" : "opacity-100"
+        }`}
+      >
+        <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
+          {playing ? <Pause size={18} className="text-primary-foreground" /> : <Play size={18} className="text-primary-foreground ml-0.5" />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ===== DETAIL PAGE =====
 const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) => {
   const [yacimiento, setYacimiento] = useState<Yacimiento | null>(null);
