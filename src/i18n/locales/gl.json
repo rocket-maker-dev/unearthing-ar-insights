@@ -244,7 +244,7 @@
     "lidar_glb_title": "Formato GLB",
     "lidar_glb_desc": "Scaniverse exporta como .glb — formato estándar para modelos 3D en web. Three.js cárgao directamente.",
     "lidar_insight_title": "O insight clave",
-    "lidar_insight_body": "Antes intentabamos calcular a posición comparando fotos co mapa LiDAR nun servidor Python. A solución: usar o GLB só como referencia visual. O tracking faino WebXR co LiDAR do iPhone en tempo real.",
+    "lidar_insight_body": "Antes intentabamos calcular a posición comparando fotos co mapa 3D nun servidor Python. A solución: usar o GLB só como referencia visual. O tracking faino WebXR con ARCore en tempo real.",
     "lidar_step1": "1. Escanear",
     "lidar_step1_desc": "Moverse lentamente. O LiDAR captura a xeometría.",
     "lidar_step2": "2. Procesar",
