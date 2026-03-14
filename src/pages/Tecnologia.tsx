@@ -97,10 +97,6 @@ const Tecnologia = () => {
               <Badge>📦 Scaniverse</Badge>
               <Badge>👁️ OpenCV</Badge>
             </div>
-            <Link to="/#equipo" className="inline-flex items-center gap-2 rounded-lg border border-primary/30 text-primary font-medium px-5 py-2.5 text-sm hover:bg-primary/10 transition-colors">
-              <Users size={16} />
-              {t("tech.meet_team")}
-            </Link>
           </AnimatedSection>
 
           {/* Stats */}
