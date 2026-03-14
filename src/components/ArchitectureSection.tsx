@@ -1,5 +1,6 @@
 import { Github, Download, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 
 const diagram = `Android (Chrome + ARCore)
@@ -16,10 +17,9 @@ Archivo GLB — malla 3D del espacio generada por Scaniverse`;
 const ArchitectureSection = () => {
   const { t } = useTranslation();
 
-  const buttons = [
+  const externalButtons = [
     { icon: Github, label: t("architecture.github"), href: "https://github.com/rocket-maker-dev/unearthing-ar-insights" },
     { icon: Download, label: t("architecture.download"), href: "#" },
-    { icon: FileText, label: t("architecture.docs"), href: "/docs" },
   ];
 
   return (
