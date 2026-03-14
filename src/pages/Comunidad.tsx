@@ -440,6 +440,7 @@ const VideoCardPlayer = ({ url }: { url: string }) => {
 
 // ===== DETAIL PAGE =====
 const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) => {
+  const { t } = useTranslation();
   const [yacimiento, setYacimiento] = useState<Yacimiento | null>(null);
   const [items, setItems] = useState<YacimientoItem[]>([]);
   const [loading, setLoading] = useState(true);
