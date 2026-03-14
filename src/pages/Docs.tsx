@@ -37,6 +37,10 @@ const Docs = () => {
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetch("/docs/DOCS.md")
       .then((r) => r.text())
       .then((text) => {

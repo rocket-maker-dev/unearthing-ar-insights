@@ -1,5 +1,6 @@
 import { Github, Download, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 
 const diagram = `Android (Chrome + ARCore)
@@ -16,10 +17,9 @@ Archivo GLB — malla 3D del espacio generada por Scaniverse`;
 const ArchitectureSection = () => {
   const { t } = useTranslation();
 
-  const buttons = [
+  const externalButtons = [
     { icon: Github, label: t("architecture.github"), href: "https://github.com/rocket-maker-dev/unearthing-ar-insights" },
     { icon: Download, label: t("architecture.download"), href: "#" },
-    { icon: FileText, label: t("architecture.docs"), href: "/docs" },
   ];
 
   return (
@@ -39,12 +39,16 @@ const ArchitectureSection = () => {
 
         <AnimatedSection delay={0.3}>
           <div className="flex flex-wrap gap-4">
-            {buttons.map((b) => (
-              <a key={b.label} href={b.href} className="inline-flex items-center gap-2 rounded-lg border border-primary/30 text-primary font-medium px-6 py-3 text-sm hover:bg-primary/10 transition-colors">
+            {externalButtons.map((b) => (
+              <a key={b.label} href={b.href} target={b.href.startsWith("http") ? "_blank" : undefined} rel={b.href.startsWith("http") ? "noopener noreferrer" : undefined} className="inline-flex items-center gap-2 rounded-lg border border-primary/30 text-primary font-medium px-6 py-3 text-sm hover:bg-primary/10 transition-colors">
                 <b.icon size={18} />
                 {b.label}
               </a>
             ))}
+            <Link to="/docs" className="inline-flex items-center gap-2 rounded-lg border border-primary/30 text-primary font-medium px-6 py-3 text-sm hover:bg-primary/10 transition-colors">
+              <FileText size={18} />
+              {t("architecture.docs")}
+            </Link>
           </div>
         </AnimatedSection>
       </div>
