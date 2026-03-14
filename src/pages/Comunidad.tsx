@@ -625,30 +625,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
           <CSVViewer />
         </div>
 
-        {/* Galería y montajes */}
-        <div className="border-t border-border pt-8 mt-8">
-          <h2 className="text-2xl font-bold mb-6">Galería y montajes</h2>
-          <ARGallery
-            images={
-              items
-                .filter((i) => i.tipo === "imagen" && (i.archivo_url || i.thumbnail_url))
-                .map((i) => ({
-                  src: (i.archivo_url || i.thumbnail_url)!,
-                  title: i.titulo,
-                  category: "montaje" as const,
-                }))
-                .length > 0
-                ? items
-                    .filter((i) => i.tipo === "imagen" && (i.archivo_url || i.thumbnail_url))
-                    .map((i) => ({
-                      src: (i.archivo_url || i.thumbnail_url)!,
-                      title: i.titulo,
-                      category: "montaje" as const,
-                    }))
-                : undefined
-            }
-          />
-        </div>
+        {/* Galería y montajes — oculta: el contenido AR ya se muestra arriba */}
 
         {items.length === 0 && (
           <div className="text-center py-12 border border-dashed border-border rounded-xl">
