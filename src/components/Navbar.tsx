@@ -1,21 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, LogIn, LogOut, Shield } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import logo from "@/assets/logo_vision_maker_lab.png";
 import { useAuth } from "@/hooks/useAuth";
-
-const links = [
-  { label: "Problema", href: "/#problema" },
-  { label: "Proceso", href: "/#proceso" },
-  { label: "Arquitectura", href: "/#arquitectura" },
-  { label: "Replica", href: "/#replica" },
-  { label: "Comunidad", href: "/comunidad" },
-  { label: "Equipo", href: "/#equipo" },
-];
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -24,6 +18,15 @@ const Navbar = () => {
   const [loginError, setLoginError] = useState("");
   const [loggingIn, setLoggingIn] = useState(false);
   const { user, isAdmin, signIn, signOut } = useAuth();
+
+  const links = [
+    { label: t("nav.problem"), href: "/#problema" },
+    { label: t("nav.process"), href: "/#proceso" },
+    { label: t("nav.architecture"), href: "/#arquitectura" },
+    { label: t("nav.replicate"), href: "/#replica" },
+    { label: t("nav.community"), href: "/comunidad" },
+    { label: t("nav.team"), href: "/#equipo" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -58,7 +61,7 @@ const Navbar = () => {
           </a>
 
           {/* Desktop */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {links.map((l) => (
               <a
                 key={l.href}
@@ -77,6 +80,7 @@ const Navbar = () => {
                 {l.label}
               </a>
             ))}
+            <LanguageSwitcher />
             {user ? (
               <div className="flex items-center gap-2">
                 {isAdmin && (
@@ -88,7 +92,7 @@ const Navbar = () => {
                   onClick={async () => { await signOut(); navigate("/"); }}
                   className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <LogOut size={14} /> Salir
+                  <LogOut size={14} /> {t("nav.logout")}
                 </button>
               </div>
             ) : (
@@ -96,7 +100,7 @@ const Navbar = () => {
                 onClick={() => setShowLogin(true)}
                 className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <LogIn size={14} /> Admin
+                <LogIn size={14} /> {t("nav.login")}
               </button>
             )}
           </div>
@@ -130,19 +134,22 @@ const Navbar = () => {
                 {l.label}
               </a>
             ))}
+            <div className="pt-2">
+              <LanguageSwitcher />
+            </div>
             {user ? (
               <button
                 onClick={async () => { await signOut(); setOpen(false); navigate("/"); }}
                 className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <LogOut size={14} className="inline mr-1" /> Cerrar sesión
+                <LogOut size={14} className="inline mr-1" /> {t("nav.close_session")}
               </button>
             ) : (
               <button
                 onClick={() => { setShowLogin(true); setOpen(false); }}
                 className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <LogIn size={14} className="inline mr-1" /> Admin
+                <LogIn size={14} className="inline mr-1" /> {t("nav.login")}
               </button>
             )}
           </div>
@@ -154,14 +161,14 @@ const Navbar = () => {
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-background/80 backdrop-blur-md p-4" onClick={() => setShowLogin(false)}>
           <div className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-sm" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b border-border">
-              <h3 className="text-lg font-bold flex items-center gap-2"><Shield size={18} className="text-primary" /> Acceso admin</h3>
+              <h3 className="text-lg font-bold flex items-center gap-2"><Shield size={18} className="text-primary" /> {t("nav.admin_access")}</h3>
               <button onClick={() => setShowLogin(false)} className="p-1 rounded-lg hover:bg-secondary transition-colors">
                 <X size={20} />
               </button>
             </div>
             <form onSubmit={handleLogin} className="p-6 space-y-4">
               <div>
-                <label className="text-sm font-medium mb-1.5 block">Email</label>
+                <label className="text-sm font-medium mb-1.5 block">{t("nav.email")}</label>
                 <input
                   type="email"
                   value={email}
@@ -172,7 +179,7 @@ const Navbar = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1.5 block">Contraseña</label>
+                <label className="text-sm font-medium mb-1.5 block">{t("nav.password")}</label>
                 <input
                   type="password"
                   value={password}
@@ -187,7 +194,7 @@ const Navbar = () => {
                 disabled={loggingIn}
                 className="w-full bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition-all disabled:opacity-50"
               >
-                {loggingIn ? "Entrando…" : "Iniciar sesión"}
+                {loggingIn ? t("nav.logging_in") : t("nav.sign_in")}
               </button>
             </form>
           </div>
