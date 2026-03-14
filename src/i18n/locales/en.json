@@ -80,7 +80,8 @@
     "steps_title": "Steps:",
     "step1": "Scan the space with Scaniverse → export as .glb",
     "step2": "Download our code → upload your GLB file",
-    "step3": "Open the URL in Chrome → tap the floor → AR objects appear anchored to the space"
+    "step3": "Open the URL in Chrome → tap the floor → AR objects appear anchored to the space",
+    "tech_button": "🔬 See the technology behind the project"
   },
   "team": {
     "label": "Who we are",
