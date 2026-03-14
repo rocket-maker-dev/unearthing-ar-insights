@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, LogIn, LogOut, Shield } from "lucide-react";
 import logo from "@/assets/logo_vision_maker_lab.png";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,6 +14,8 @@ const links = [
 ];
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -60,6 +63,15 @@ const Navbar = () => {
               <a
                 key={l.href}
                 href={l.href}
+                onClick={(e) => {
+                  if (l.href.startsWith("/") && !l.href.includes("#")) {
+                    e.preventDefault();
+                    navigate(l.href);
+                  } else if (l.href.startsWith("/#") && location.pathname === "/") {
+                    e.preventDefault();
+                    document.querySelector(l.href.replace("/", ""))?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {l.label}
@@ -73,7 +85,7 @@ const Navbar = () => {
                   </span>
                 )}
                 <button
-                  onClick={signOut}
+                  onClick={async () => { await signOut(); navigate("/"); }}
                   className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <LogOut size={14} /> Salir
@@ -106,7 +118,13 @@ const Navbar = () => {
               <a
                 key={l.href}
                 href={l.href}
-                onClick={() => setOpen(false)}
+                onClick={(e) => {
+                  setOpen(false);
+                  if (l.href.startsWith("/") && !l.href.includes("#")) {
+                    e.preventDefault();
+                    navigate(l.href);
+                  }
+                }}
                 className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {l.label}
@@ -114,7 +132,7 @@ const Navbar = () => {
             ))}
             {user ? (
               <button
-                onClick={() => { signOut(); setOpen(false); }}
+                onClick={async () => { await signOut(); setOpen(false); navigate("/"); }}
                 className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <LogOut size={14} className="inline mr-1" /> Cerrar sesión

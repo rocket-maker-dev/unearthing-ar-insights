@@ -1,5 +1,6 @@
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroVideo from "@/assets/hero-video.mp4";
 import logo from "@/assets/logo_vision_maker_lab.png";
 
@@ -74,12 +75,12 @@ const HeroSection = () => (
         >
           Ver cómo funciona <ArrowDown size={18} />
         </a>
-        <a
-          href="/comunidad"
+        <Link
+          to="/comunidad"
           className="inline-flex items-center gap-2 border border-border text-foreground font-semibold px-8 py-3.5 rounded-lg hover:bg-secondary transition-all"
         >
           Explorar comunidad
-        </a>
+        </Link>
       </motion.div>
     </div>
   </section>
