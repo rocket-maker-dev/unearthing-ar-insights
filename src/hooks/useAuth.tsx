@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, useCallback, createContext, useContext } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
@@ -25,51 +25,106 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const checkAdmin = async (userId: string) => {
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin")
-      .maybeSingle();
-    setIsAdmin(!!data);
-  };
+  const checkAdmin = useCallback(async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error checking admin role:", error);
+        return false;
+      }
+
+      return !!data;
+    } catch (error) {
+      console.error("Unexpected admin role check error:", error);
+      return false;
+    }
+  }, []);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        const u = session?.user ?? null;
-        setUser(u);
-        if (u) {
-          await checkAdmin(u.id);
-        } else {
+    let mounted = true;
+
+    const initializeAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!mounted) return;
+
+        setUser(session?.user ?? null);
+        if (!session?.user) setIsAdmin(false);
+      } catch (error) {
+        console.error("Error initializing auth:", error);
+        if (mounted) {
+          setUser(null);
           setIsAdmin(false);
         }
-        setLoading(false);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    initializeAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (!mounted) return;
+
+        const nextUser = session?.user ?? null;
+        setUser(nextUser);
+        if (!nextUser) setIsAdmin(false);
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const u = session?.user ?? null;
-      setUser(u);
-      if (u) {
-        checkAdmin(u.id);
-      }
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!user?.id) {
+      setIsAdmin(false);
+      return;
+    }
+
+    const resolveRole = async () => {
+      const admin = await checkAdmin(user.id);
+      if (!cancelled) setIsAdmin(admin);
+    };
+
+    resolveRole();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id, checkAdmin]);
+
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return error ? error.message : null;
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      return error ? error.message : null;
+    } catch (error) {
+      console.error("Unexpected sign in error:", error);
+      return "No se pudo iniciar sesión. Inténtalo de nuevo.";
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setIsAdmin(false);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) console.error("Error signing out:", error);
+    } catch (error) {
+      console.error("Unexpected sign out error:", error);
+    } finally {
+      setUser(null);
+      setIsAdmin(false);
+    }
   };
 
   return (

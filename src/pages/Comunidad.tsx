@@ -599,15 +599,45 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
 const Comunidad = () => {
   const [yacimientos, setYacimientos] = useState<Yacimiento[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetch = async () => {
-      const { data } = await supabase.from("yacimientos").select("*").order("created_at", { ascending: false });
-      if (data) setYacimientos(data as Yacimiento[]);
-      setLoading(false);
+    let active = true;
+
+    const fetchYacimientos = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("yacimientos")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (!active) return;
+
+        if (error) {
+          console.error("Error loading yacimientos:", error);
+          setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
+          setYacimientos([]);
+          return;
+        }
+
+        setErrorMsg("");
+        setYacimientos((data ?? []) as Yacimiento[]);
+      } catch (error) {
+        if (!active) return;
+        console.error("Unexpected error loading yacimientos:", error);
+        setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
+        setYacimientos([]);
+      } finally {
+        if (active) setLoading(false);
+      }
     };
-    fetch();
+
+    fetchYacimientos();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -636,6 +666,10 @@ const Comunidad = () => {
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="rounded-xl border border-border bg-card h-72 animate-pulse" />
                 ))}
+              </div>
+            ) : errorMsg ? (
+              <div className="text-center py-20 text-destructive">
+                <p>{errorMsg}</p>
               </div>
             ) : yacimientos.length === 0 ? (
               <div className="text-center py-20 text-muted-foreground">
