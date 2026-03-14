@@ -890,6 +890,7 @@ const NuevoYacimientoForm = ({
 
 // ===== MAIN PAGE =====
 const Comunidad = () => {
+  const { t } = useTranslation();
   const [yacimientos, setYacimientos] = useState<Yacimiento[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
