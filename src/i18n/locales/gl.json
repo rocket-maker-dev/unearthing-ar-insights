@@ -214,7 +214,7 @@
     "phase4_issue3": "Conversión de coordenadas OpenCV→Three.js era un inferno",
     "phase4_issue4": "Os obxectos aparecían un segundo e desaparecían",
     "phase5_title": "Fase 5 — WebXR + Scaniverse",
-    "phase5_body": "O insight clave: o iPhone xa sabe onde está. Ten cámara, xiroscopio, acelerómetro e LiDAR. Usamos a WebXR API do propio Safari.",
+    "phase5_body": "O insight clave: o móbil xa sabe onde está. Ten cámara, xiroscopio, acelerómetro e sensores de profundidade. Usamos a WebXR API de Chrome. Sen servidor, sen túnel, sen conversión de coordenadas.",
     "webxr_label": "Tecnoloxía principal",
     "webxr_subtitle": "O corazón do sistema",
     "webxr_desc": "WebXR é a API do navegador que permite crear experiencias de Realidade Aumentada directamente no navegador. Sen apps, sen instalacións.",
