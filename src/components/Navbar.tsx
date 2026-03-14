@@ -63,6 +63,15 @@ const Navbar = () => {
               <a
                 key={l.href}
                 href={l.href}
+                onClick={(e) => {
+                  if (l.href.startsWith("/") && !l.href.includes("#")) {
+                    e.preventDefault();
+                    navigate(l.href);
+                  } else if (l.href.startsWith("/#") && location.pathname === "/") {
+                    e.preventDefault();
+                    document.querySelector(l.href.replace("/", ""))?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {l.label}
