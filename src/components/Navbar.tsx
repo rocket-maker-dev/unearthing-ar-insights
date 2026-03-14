@@ -118,7 +118,13 @@ const Navbar = () => {
               <a
                 key={l.href}
                 href={l.href}
-                onClick={() => setOpen(false)}
+                onClick={(e) => {
+                  setOpen(false);
+                  if (l.href.startsWith("/") && !l.href.includes("#")) {
+                    e.preventDefault();
+                    navigate(l.href);
+                  }
+                }}
                 className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {l.label}
@@ -126,7 +132,7 @@ const Navbar = () => {
             ))}
             {user ? (
               <button
-                onClick={() => { signOut(); setOpen(false); }}
+                onClick={async () => { await signOut(); setOpen(false); navigate("/"); }}
                 className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <LogOut size={14} className="inline mr-1" /> Cerrar sesión
