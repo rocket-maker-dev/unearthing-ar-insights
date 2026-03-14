@@ -85,7 +85,7 @@ const Navbar = () => {
                   </span>
                 )}
                 <button
-                  onClick={signOut}
+                  onClick={async () => { await signOut(); navigate("/"); }}
                   className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <LogOut size={14} /> Salir
