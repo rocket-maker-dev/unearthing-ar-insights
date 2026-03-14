@@ -150,7 +150,9 @@ const Docs = () => {
                   strong: ({ children, ...props }) => <strong className="text-foreground font-semibold" {...props}>{children}</strong>,
                   img: ({ src, alt, ...props }) => <img src={src} alt={alt} className="rounded-xl border border-border my-4 max-w-full" loading="lazy" {...props} />,
                 }}
-              />
+              >
+                {markdown}
+              </ReactMarkdown>
             </article>
 
             <div className="mt-16 pt-8 border-t border-border flex flex-wrap items-center gap-4">
