@@ -365,7 +365,9 @@ const UploadDialog = ({
 // ===== INLINE VIDEO PLAYER =====
 const VideoCardPlayer = ({ url }: { url: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const toggle = useCallback(() => {
     const v = videoRef.current;
@@ -379,27 +381,59 @@ const VideoCardPlayer = ({ url }: { url: string }) => {
     }
   }, []);
 
+  const openModal = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    videoRef.current?.pause();
+    setPlaying(false);
+    setModalOpen(true);
+  }, []);
+
   return (
-    <div className="relative w-full h-full cursor-pointer" onClick={toggle}>
-      <video
-        ref={videoRef}
-        src={url}
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        className="w-full h-full object-cover"
-      />
-      <div
-        className={`absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity ${
-          playing ? "opacity-0 hover:opacity-100" : "opacity-100"
-        }`}
-      >
-        <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
-          {playing ? <Pause size={18} className="text-primary-foreground" /> : <Play size={18} className="text-primary-foreground ml-0.5" />}
+    <>
+      <div className="relative w-full h-full cursor-pointer" onClick={toggle}>
+        <video
+          ref={videoRef}
+          src={url}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-cover"
+        />
+        <div
+          className={`absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity ${
+            playing ? "opacity-0 hover:opacity-100" : "opacity-100"
+          }`}
+        >
+          <div className="w-10 h-10 rounded-full bg-primary/90 flex items-center justify-center shadow-lg">
+            {playing ? <Pause size={18} className="text-primary-foreground" /> : <Play size={18} className="text-primary-foreground ml-0.5" />}
+          </div>
         </div>
+        {/* Fullscreen button */}
+        <button
+          onClick={openModal}
+          className="absolute top-2 right-2 z-10 w-8 h-8 rounded-lg bg-card/80 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-card transition-colors"
+          title="Ver a tamaño completo"
+        >
+          <Maximize2 size={14} />
+        </button>
       </div>
-    </div>
+
+      {/* Fullscreen modal */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="max-w-[90vw] max-h-[90vh] p-2 sm:p-4 bg-background/95 backdrop-blur-md border-border">
+          <video
+            ref={modalVideoRef}
+            src={url}
+            loop
+            controls
+            autoPlay
+            playsInline
+            className="w-full max-h-[80vh] rounded-lg object-contain"
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
