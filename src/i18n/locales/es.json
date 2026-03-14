@@ -230,7 +230,7 @@
     "three_subtitle": "Motor de renderizado 3D",
     "three_desc": "Three.js es la librería JavaScript que renderiza los objetos 3D superpuestos sobre la realidad.",
     "three_scene": "El 'mundo' donde viven todos los objetos 3D. Como un plató de cine.",
-    "three_camera": "El 'ojo' que ve la escena. En AR, se sincroniza con la cámara real del iPhone.",
+    "three_camera": "El 'ojo' que ve la escena. En AR, se sincroniza con la cámara real del dispositivo.",
     "three_renderer": "Convierte la escena 3D en píxeles. Se hace transparente para ver la cámara AR detrás.",
     "three_mesh": "Un objeto 3D = Geometry (forma) + Material (apariencia). Ej: esfera + dorado = vasija.",
     "three_glb": "Formato estándar para modelos 3D web. Scaniverse exporta en GLB.",
