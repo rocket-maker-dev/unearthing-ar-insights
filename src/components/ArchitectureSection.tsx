@@ -1,4 +1,4 @@
-import { Github, Download, FileText } from "lucide-react";
+import { Github, FileText } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
