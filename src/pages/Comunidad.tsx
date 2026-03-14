@@ -673,49 +673,277 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   );
 };
 
+// ===== NEW YACIMIENTO FORM =====
+const NuevoYacimientoForm = ({
+  onClose,
+  onCreated,
+}: {
+  onClose: () => void;
+  onCreated: () => void;
+}) => {
+  const [nombre, setNombre] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [tipo, setTipo] = useState("romano");
+  const [descripcion, setDescripcion] = useState("");
+  const [contactoNombre, setContactoNombre] = useState("");
+  const [contactoEmail, setContactoEmail] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [imagenFile, setImagenFile] = useState<File | null>(null);
+  const [imgPreview, setImgPreview] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const imgRef = useRef<HTMLInputElement>(null);
+
+  const tiposSitio = [
+    "romano", "ibérico", "medieval", "prehistórico", "islámico",
+    "fenicio", "celta", "visigodo", "otro",
+  ];
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setImagenFile(f);
+    setImgPreview(URL.createObjectURL(f));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!nombre.trim() || !ubicacion.trim()) {
+      setError("Nombre y ubicación son obligatorios.");
+      return;
+    }
+    setSaving(true);
+    setError("");
+
+    let imagen_url: string | null = null;
+
+    if (imagenFile) {
+      const fileName = `yacimientos/${crypto.randomUUID()}/${imagenFile.name}`;
+      const { error: upErr } = await supabase.storage
+        .from("yacimiento-images")
+        .upload(fileName, imagenFile, {
+          contentType: imagenFile.type,
+          cacheControl: "3600",
+        });
+      if (upErr) {
+        setError("Error al subir la imagen. Inténtalo de nuevo.");
+        setSaving(false);
+        return;
+      }
+      const { data: pubData } = supabase.storage
+        .from("yacimiento-images")
+        .getPublicUrl(fileName);
+      imagen_url = pubData.publicUrl;
+    }
+
+    const { error: insertErr } = await supabase.from("yacimientos").insert({
+      nombre: nombre.trim(),
+      ubicacion: ubicacion.trim(),
+      tipo: tipo,
+      descripcion: descripcion.trim() || null,
+      contacto_nombre: contactoNombre.trim() || null,
+      contacto_email: contactoEmail.trim() || null,
+      website_url: websiteUrl.trim() || null,
+      imagen_url,
+    } as any);
+
+    if (insertErr) {
+      console.error("Insert error:", insertErr);
+      setError("Error al registrar el yacimiento. Inténtalo de nuevo.");
+      setSaving(false);
+      return;
+    }
+
+    setSaving(false);
+    onCreated();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-md p-4" onClick={onClose}>
+      <div
+        className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h3 className="text-lg font-bold">Registrar yacimiento</h3>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-secondary transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* Nombre */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Nombre del yacimiento *</label>
+            <input
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              placeholder="Ej: Termas Romanas de Caldoval"
+              required
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+            />
+          </div>
+
+          {/* Ubicación */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Ubicación *</label>
+            <input
+              value={ubicacion}
+              onChange={(e) => setUbicacion(e.target.value)}
+              placeholder="Ej: Sanxenxo, Pontevedra"
+              required
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+            />
+          </div>
+
+          {/* Tipo */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Tipo de yacimiento</label>
+            <div className="flex flex-wrap gap-2">
+              {tiposSitio.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setTipo(t)}
+                  className={`px-3 py-1.5 rounded-lg border text-sm capitalize transition-colors ${
+                    tipo === t
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border text-muted-foreground hover:border-primary/30"
+                  }`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Descripción */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Descripción</label>
+            <textarea
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              rows={3}
+              placeholder="Describe brevemente el yacimiento o centro de interpretación…"
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors resize-none"
+            />
+          </div>
+
+          {/* Imagen */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Imagen de portada</label>
+            <input ref={imgRef} type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+            {imagenFile ? (
+              <div className="flex items-center gap-3 rounded-lg border border-border bg-background px-4 py-3">
+                {imgPreview && <img src={imgPreview} alt="Preview" className="w-12 h-12 rounded object-cover" />}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{imagenFile.name}</p>
+                </div>
+                <button type="button" onClick={() => { setImagenFile(null); setImgPreview(null); }} className="text-muted-foreground hover:text-foreground">
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => imgRef.current?.click()}
+                className="flex items-center gap-2 rounded-lg border border-dashed border-border bg-background px-4 py-6 text-sm text-muted-foreground hover:border-primary/50 transition-colors w-full justify-center"
+              >
+                <Upload size={20} />
+                Seleccionar imagen
+              </button>
+            )}
+          </div>
+
+          {/* Contacto */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">Nombre contacto</label>
+              <input
+                value={contactoNombre}
+                onChange={(e) => setContactoNombre(e.target.value)}
+                placeholder="Opcional"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">Email contacto</label>
+              <input
+                type="email"
+                value={contactoEmail}
+                onChange={(e) => setContactoEmail(e.target.value)}
+                placeholder="Opcional"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+              />
+            </div>
+          </div>
+
+          {/* Website */}
+          <div>
+            <label className="text-sm font-medium mb-1.5 block">Sitio web</label>
+            <input
+              type="url"
+              value={websiteUrl}
+              onChange={(e) => setWebsiteUrl(e.target.value)}
+              placeholder="https://..."
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 transition-colors"
+            />
+          </div>
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={saving}
+            className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3.5 rounded-lg hover:brightness-110 transition-all disabled:opacity-50"
+          >
+            {saving ? (
+              <><Loader2 size={18} className="animate-spin" /> Registrando…</>
+            ) : (
+              <><CheckCircle size={18} /> Registrar yacimiento</>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // ===== MAIN PAGE =====
 const Comunidad = () => {
   const [yacimientos, setYacimientos] = useState<Yacimiento[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showNewForm, setShowNewForm] = useState(false);
 
-  useEffect(() => {
-    let active = true;
+  const fetchYacimientos = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("yacimientos")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-    const fetchYacimientos = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("yacimientos")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (!active) return;
-
-        if (error) {
-          console.error("Error loading yacimientos:", error);
-          setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
-          setYacimientos([]);
-          return;
-        }
-
-        setErrorMsg("");
-        setYacimientos((data ?? []) as Yacimiento[]);
-      } catch (error) {
-        if (!active) return;
-        console.error("Unexpected error loading yacimientos:", error);
+      if (error) {
+        console.error("Error loading yacimientos:", error);
         setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
         setYacimientos([]);
-      } finally {
-        if (active) setLoading(false);
+        return;
       }
-    };
 
+      setErrorMsg("");
+      setYacimientos((data ?? []) as Yacimiento[]);
+    } catch (error) {
+      console.error("Unexpected error loading yacimientos:", error);
+      setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
+      setYacimientos([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchYacimientos();
-
-    return () => {
-      active = false;
-    };
   }, []);
 
   return (
@@ -766,21 +994,32 @@ const Comunidad = () => {
             {/* CTA to register */}
             <AnimatedSection delay={0.2}>
               <div className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
-                <h3 className="text-xl font-bold mb-2">Crea tu propio contenido AR</h3>
+                <h3 className="text-xl font-bold mb-2">¿Conoces un yacimiento o centro de interpretación?</h3>
                 <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-                  Usa las plantillas y herramientas de <span className="text-foreground font-semibold">UNEARTHED AR</span> para dar vida a cualquier yacimiento arqueológico con Realidad Aumentada. ¡Sin necesidad de programar!
+                  Regístralo en la plataforma y comparte contenido AR con la comunidad. Cualquiera puede añadir un nuevo yacimiento con sus fotos, vídeos y modelos 3D.
                 </p>
-                <a
-                  href="/#arquitectura"
+                <button
+                  onClick={() => setShowNewForm(true)}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition-all"
                 >
-                  <Plus size={18} /> Empieza ahora
-                </a>
+                  <Plus size={18} /> Registrar yacimiento
+                </button>
               </div>
             </AnimatedSection>
           </div>
         </div>
       )}
+
+      {showNewForm && (
+        <NuevoYacimientoForm
+          onClose={() => setShowNewForm(false)}
+          onCreated={() => {
+            setShowNewForm(false);
+            fetchYacimientos();
+          }}
+        />
+      )}
+
       <Footer />
     </>
   );
