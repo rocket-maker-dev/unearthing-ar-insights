@@ -476,7 +476,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-5xl mx-auto">
         <button onClick={onBack} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8">
-          <ArrowLeft size={16} /> Volver a comunidad
+          <ArrowLeft size={16} /> {t("community.back")}
         </button>
 
         {/* Hero image */}
