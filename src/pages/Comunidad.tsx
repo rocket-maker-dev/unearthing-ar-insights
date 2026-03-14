@@ -936,14 +936,13 @@ const Comunidad = () => {
           <div className="max-w-6xl mx-auto">
             <AnimatedSection>
               <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-4">
-                Comunidad
+                {t("community.label")}
               </p>
               <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                Yacimientos con AR
+                {t("community.title")}
               </h1>
               <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-12">
-                Explora yacimientos arqueológicos que usan nuestra tecnología de Realidad Aumentada.
-                ¿Conoces uno? ¡Regístralo y comparte contenido AR con la comunidad!
+                {t("community.desc")}
               </p>
             </AnimatedSection>
 
