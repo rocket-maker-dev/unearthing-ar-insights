@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { MapPin, ArrowLeft, ExternalLink, Calendar, Globe, Plus, Image, Box, FileText, Film, Upload, X, CheckCircle, Loader2, Trash2, Play, Pause, Maximize2 } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,10 +47,10 @@ const tipoIcons: Record<string, typeof Image> = {
 };
 
 const tipoLabels: Record<string, string> = {
-  imagen: "Imagen",
-  modelo_3d: "Modelo 3D",
-  panel_info: "Panel informativo",
-  video: "Vídeo",
+  imagen: "Image / AR",
+  modelo_3d: "3D Model",
+  panel_info: "Info Panel",
+  video: "Video",
 };
 
 // ===== LISTING PAGE =====
@@ -439,6 +440,7 @@ const VideoCardPlayer = ({ url }: { url: string }) => {
 
 // ===== DETAIL PAGE =====
 const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) => {
+  const { t } = useTranslation();
   const [yacimiento, setYacimiento] = useState<Yacimiento | null>(null);
   const [items, setItems] = useState<YacimientoItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -460,21 +462,21 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   }, [id]);
 
   const handleDeleteItem = async (itemId: string) => {
-    if (!confirm("¿Seguro que quieres eliminar este recurso?")) return;
+    if (!confirm(t("community.delete_confirm"))) return;
     setDeleting(itemId);
     await supabase.from("yacimiento_items").delete().eq("id", itemId);
     setItems((prev) => prev.filter((i) => i.id !== itemId));
     setDeleting(null);
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Cargando...</div>;
-  if (!yacimiento) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">No encontrado</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">{t("community.loading")}</div>;
+  if (!yacimiento) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">{t("community.not_found")}</div>;
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-5xl mx-auto">
         <button onClick={onBack} className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8">
-          <ArrowLeft size={16} /> Volver a comunidad
+          <ArrowLeft size={16} /> {t("community.back")}
         </button>
 
         {/* Hero image */}
@@ -522,14 +524,14 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
             onClick={() => setShowUpload(true)}
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg hover:brightness-110 transition-all text-sm"
           >
-            <Upload size={16} /> Subir montaje o modelo
+            <Upload size={16} /> {t("community.upload_content")}
           </button>
         </div>
 
         {/* Items gallery */}
         {items.length > 0 && (
           <div>
-            <h2 className="text-2xl font-bold mb-6">Contenido AR</h2>
+            <h2 className="text-2xl font-bold mb-6">{t("community.ar_content")}</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {items.map((item) => {
                 const Icon = tipoIcons[item.tipo] || FileText;
@@ -567,7 +569,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
                             onClick={() => handleDeleteItem(item.id)}
                             disabled={deleting === item.id}
                             className="p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
-                            title="Eliminar recurso"
+                            title={t("community.delete_resource")}
                           >
                             {deleting === item.id ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
                           </button>
@@ -590,7 +592,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
           const models3d = items.filter((i) => i.tipo === "modelo_3d" && i.archivo_url);
           return (
             <div className="border-t border-border pt-8 mt-8">
-              <h2 className="text-2xl font-bold mb-4">Visor 3D</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("community.viewer_3d")}</h2>
               {models3d.length > 1 && (
                 <div className="flex flex-wrap gap-2 mb-4">
                   {models3d.map((m) => (
@@ -621,7 +623,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
 
         {/* Datos de excavación */}
         <div className="border-t border-border pt-8 mt-8">
-          <h2 className="text-2xl font-bold mb-6">Datos de excavación</h2>
+          <h2 className="text-2xl font-bold mb-6">{t("community.excavation_data")}</h2>
           <CSVViewer />
         </div>
 
@@ -629,8 +631,8 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
 
         {items.length === 0 && (
           <div className="text-center py-12 border border-dashed border-border rounded-xl">
-            <p className="text-muted-foreground">Aún no hay contenido AR para este yacimiento.</p>
-            <p className="text-sm text-muted-foreground mt-1">¡Sé el primero en añadir contenido!</p>
+            <p className="text-muted-foreground">{t("community.no_ar_content")}</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("community.be_first")}</p>
           </div>
         )}
 
@@ -888,6 +890,7 @@ const NuevoYacimientoForm = ({
 
 // ===== MAIN PAGE =====
 const Comunidad = () => {
+  const { t } = useTranslation();
   const [yacimientos, setYacimientos] = useState<Yacimiento[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
@@ -903,7 +906,7 @@ const Comunidad = () => {
 
       if (error) {
         console.error("Error loading yacimientos:", error);
-        setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
+        setErrorMsg(t("community.error_loading"));
         setYacimientos([]);
         return;
       }
@@ -912,7 +915,7 @@ const Comunidad = () => {
       setYacimientos((data ?? []) as Yacimiento[]);
     } catch (error) {
       console.error("Unexpected error loading yacimientos:", error);
-      setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
+      setErrorMsg(t("community.error_loading"));
       setYacimientos([]);
     } finally {
       setLoading(false);
@@ -933,14 +936,13 @@ const Comunidad = () => {
           <div className="max-w-6xl mx-auto">
             <AnimatedSection>
               <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-4">
-                Comunidad
+                {t("community.label")}
               </p>
               <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                Yacimientos con AR
+                {t("community.title")}
               </h1>
               <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-12">
-                Explora yacimientos arqueológicos que usan nuestra tecnología de Realidad Aumentada.
-                ¿Conoces uno? ¡Regístralo y comparte contenido AR con la comunidad!
+                {t("community.desc")}
               </p>
             </AnimatedSection>
 
@@ -956,7 +958,7 @@ const Comunidad = () => {
               </div>
             ) : yacimientos.length === 0 ? (
               <div className="text-center py-20 text-muted-foreground">
-                <p>No hay yacimientos registrados aún.</p>
+                <p>{t("community.no_sites")}</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
@@ -971,15 +973,15 @@ const Comunidad = () => {
             {/* CTA to register */}
             <AnimatedSection delay={0.2}>
               <div className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
-                <h3 className="text-xl font-bold mb-2">¿Conoces un yacimiento o centro de interpretación?</h3>
+                <h3 className="text-xl font-bold mb-2">{t("community.cta_title")}</h3>
                 <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-                  Regístralo en la plataforma y comparte contenido AR con la comunidad. Cualquiera puede añadir un nuevo yacimiento con sus fotos, vídeos y modelos 3D.
+                  {t("community.cta_desc")}
                 </p>
                 <button
                   onClick={() => setShowNewForm(true)}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition-all"
                 >
-                  <Plus size={18} /> Registrar yacimiento
+                  <Plus size={18} /> {t("community.register")}
                 </button>
               </div>
             </AnimatedSection>
