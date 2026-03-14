@@ -631,8 +631,8 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
 
         {items.length === 0 && (
           <div className="text-center py-12 border border-dashed border-border rounded-xl">
-            <p className="text-muted-foreground">Aún no hay contenido AR para este yacimiento.</p>
-            <p className="text-sm text-muted-foreground mt-1">¡Sé el primero en añadir contenido!</p>
+            <p className="text-muted-foreground">{t("community.no_ar_content")}</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("community.be_first")}</p>
           </div>
         )}
 
