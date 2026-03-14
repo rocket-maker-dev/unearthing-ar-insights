@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Comunidad from "./pages/Comunidad";
 import Docs from "./pages/Docs";
+import Tecnologia from "./pages/Tecnologia";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/comunidad" element={<Comunidad />} />
             <Route path="/docs" element={<Docs />} />
+            <Route path="/tecnologia" element={<Tecnologia />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
