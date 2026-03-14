@@ -462,7 +462,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
   }, [id]);
 
   const handleDeleteItem = async (itemId: string) => {
-    if (!confirm("¿Seguro que quieres eliminar este recurso?")) return;
+    if (!confirm(t("community.delete_confirm"))) return;
     setDeleting(itemId);
     await supabase.from("yacimiento_items").delete().eq("id", itemId);
     setItems((prev) => prev.filter((i) => i.id !== itemId));
