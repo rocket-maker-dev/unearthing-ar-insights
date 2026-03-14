@@ -524,7 +524,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
             onClick={() => setShowUpload(true)}
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-5 py-2.5 rounded-lg hover:brightness-110 transition-all text-sm"
           >
-            <Upload size={16} /> Subir montaje o modelo
+            <Upload size={16} /> {t("community.upload_content")}
           </button>
         </div>
 
