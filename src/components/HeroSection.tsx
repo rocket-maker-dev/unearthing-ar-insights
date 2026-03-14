@@ -75,8 +75,8 @@ const HeroSection = () => (
         >
           Ver cómo funciona <ArrowDown size={18} />
         </a>
-        <a
-          href="/comunidad"
+        <Link
+          to="/comunidad"
           className="inline-flex items-center gap-2 border border-border text-foreground font-semibold px-8 py-3.5 rounded-lg hover:bg-secondary transition-all"
         >
           Explorar comunidad
