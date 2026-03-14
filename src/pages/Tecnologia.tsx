@@ -91,7 +91,7 @@ const Tecnologia = () => {
             <h1 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">{t("tech.hero_title")}</h1>
             <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-8">{t("tech.hero_desc")}</p>
             <div className="flex flex-wrap gap-2">
-              <Badge>🍎 iPhone LiDAR</Badge>
+              <Badge>🤖 Android ARCore</Badge>
               <Badge>🌐 WebXR API</Badge>
               <Badge>🎮 Three.js</Badge>
               <Badge>📦 Scaniverse</Badge>
@@ -129,7 +129,7 @@ const Tecnologia = () => {
 
           <AnimatedSection delay={0.1}>
             <div className="max-w-md mx-auto space-y-2">
-              <FlowStep name="📱 iPhone (Safari)" desc={t("tech.flow1")} />
+              <FlowStep name="📱 Android (Chrome)" desc={t("tech.flow1")} />
               <FlowArrow />
               <FlowStep name="🌐 WebXR API" desc={t("tech.flow2")} />
               <FlowArrow />
