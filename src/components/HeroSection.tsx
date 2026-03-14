@@ -43,6 +43,9 @@ const HeroSection = () => {
           <Link to="/comunidad" className="inline-flex items-center gap-2 border border-border text-foreground font-semibold px-8 py-3.5 rounded-lg hover:bg-secondary transition-all">
             {t("hero.cta_community")}
           </Link>
+          <a href="#equipo" className="inline-flex items-center gap-2 border border-primary/30 text-primary font-semibold px-8 py-3.5 rounded-lg hover:bg-primary/10 transition-all">
+            {t("hero.cta_team")}
+          </a>
         </motion.div>
       </div>
     </section>

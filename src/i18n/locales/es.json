@@ -22,7 +22,8 @@
     "title_highlight": "esconde",
     "subtitle": "Usamos Realidad Aumentada con WebXR y ARCore para visualizar hallazgos arqueológicos en su contexto original. Tecnología open source, hecha por estudiantes.",
     "cta_how": "Ver cómo funciona",
-    "cta_community": "Explorar comunidad"
+    "cta_community": "Explorar comunidad",
+    "cta_team": "Conoce al equipo"
   },
   "problem": {
     "label": "El problema",

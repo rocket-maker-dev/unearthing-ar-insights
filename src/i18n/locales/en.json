@@ -22,7 +22,8 @@
     "title_highlight": "hides",
     "subtitle": "We use Augmented Reality with WebXR and ARCore to visualize archaeological findings in their original context. Open source technology, made by students.",
     "cta_how": "See how it works",
-    "cta_community": "Explore community"
+    "cta_community": "Explore community",
+    "cta_team": "Meet the team"
   },
   "problem": {
     "label": "The problem",
