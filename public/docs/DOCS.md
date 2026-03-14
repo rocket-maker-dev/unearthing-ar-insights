@@ -1,7 +1,7 @@
-# 🔭 AR Archaeology Platform — Developer Documentation
+# UNEARTHED AR — Documentación técnica
 
-> Plataforma open source de Realidad Aumentada para excavaciones arqueológicas.
-> Desarrollada por Maker Lab (Espacio Vivo, Ferrol) para FIRST LEGO League 2026.
+> Plataforma open source de Realidad Aumentada para excavaciones arqueológicas.  
+> Desarrollada por **Vision Maker Lab** (Espacio Vivo, Ferrol) para **FIRST LEGO League 2026**.
 
 ---
 
