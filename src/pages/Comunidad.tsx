@@ -569,7 +569,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
                             onClick={() => handleDeleteItem(item.id)}
                             disabled={deleting === item.id}
                             className="p-1 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors disabled:opacity-50"
-                            title="Eliminar recurso"
+                            title={t("community.delete_resource")}
                           >
                             {deleting === item.id ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
                           </button>
