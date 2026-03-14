@@ -1,5 +1,6 @@
-import { Smartphone, AppWindow, Globe, Code } from "lucide-react";
+import { Smartphone, AppWindow, Globe, Code, Cpu } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import AnimatedSection from "./AnimatedSection";
 
 const ReplicateSection = () => {
@@ -38,7 +39,7 @@ const ReplicateSection = () => {
 
         <AnimatedSection delay={0.2}>
           <h3 className="text-lg font-semibold mb-6">{t("replicate.steps_title")}</h3>
-          <div className="space-y-6">
+          <div className="space-y-6 mb-12">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-5 items-start">
                 <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary font-bold text-sm">
@@ -48,6 +49,16 @@ const ReplicateSection = () => {
               </div>
             ))}
           </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.3}>
+          <Link
+            to="/tecnologia"
+            className="inline-flex items-center gap-2.5 rounded-lg bg-primary text-primary-foreground font-semibold px-7 py-3.5 text-sm hover:brightness-110 transition-all"
+          >
+            <Cpu size={18} />
+            {t("replicate.tech_button")}
+          </Link>
         </AnimatedSection>
       </div>
     </section>
