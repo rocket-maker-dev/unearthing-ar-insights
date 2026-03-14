@@ -67,6 +67,10 @@ const GlossaryItem = ({ term, desc }: { term: string; desc: string }) => (
 const Tecnologia = () => {
   const { t } = useTranslation();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Navbar />
