@@ -19,7 +19,6 @@ const ArchitectureSection = () => {
 
   const externalButtons = [
     { icon: Github, label: t("architecture.github"), href: "https://github.com/rocket-maker-dev/unearthing-ar-insights" },
-    { icon: Download, label: t("architecture.download"), href: "#" },
   ];
 
   return (
