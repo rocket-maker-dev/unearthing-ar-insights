@@ -47,10 +47,10 @@ const tipoIcons: Record<string, typeof Image> = {
 };
 
 const tipoLabels: Record<string, string> = {
-  imagen: "Imagen",
-  modelo_3d: "Modelo 3D",
-  panel_info: "Panel informativo",
-  video: "Vídeo",
+  imagen: "Image / AR",
+  modelo_3d: "3D Model",
+  panel_info: "Info Panel",
+  video: "Video",
 };
 
 // ===== LISTING PAGE =====
