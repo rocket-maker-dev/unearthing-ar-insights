@@ -264,7 +264,7 @@
     "opencv_fail3_title": "Bug de coordenadas",
     "opencv_fail3_desc": "OpenCV (Y↓) vs Three.js (Y↑). Obxectos reflectidos ou baixo terra.",
     "opencv_solution_title": "A solución",
-    "opencv_solution_desc": "Deixar que o iPhone faga o tracking por hardware. WebXR + ARKit + LiDAR.",
+    "opencv_solution_desc": "Deixar que o dispositivo faga o tracking por hardware. WebXR + ARCore.",
     "glossary_label": "Vocabulario",
     "glossary_title": "Glosario técnico",
     "g_webxr": "API do navegador para AR/VR. Accede ao tracking do dispositivo sen apps.",
