@@ -980,5 +980,5 @@ Construido para que otros lo repliquen y mejoren.
 
 ---
 
-> 🔭 *Construido por estudiantes de Maker Lab (Espacio Vivo, Ferrol) para FIRST LEGO League 2026.*
+> *Construido por estudiantes de Vision Maker Lab (Espacio Vivo, Ferrol) para FIRST LEGO League 2026.*  
 > *Tecnología open source — comparte, mejora, aprende.*
