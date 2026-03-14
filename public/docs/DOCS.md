@@ -122,8 +122,8 @@ Solo necesitamos darle los objetos 3D para renderizar.
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/maker-lab-ferrol/ar-archaeology.git
-cd ar-archaeology
+git clone https://github.com/rocket-maker-dev/unearthing-ar-insights.git
+cd unearthing-ar-insights
 
 # 2. Instalar dependencias (opcional, para dev server)
 npm install
