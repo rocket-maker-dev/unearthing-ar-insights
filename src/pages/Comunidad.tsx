@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { MapPin, ArrowLeft, ExternalLink, Calendar, Globe, Plus, Image, Box, FileText, Film, Upload, X, CheckCircle, Loader2, Trash2, Play, Pause, Maximize2 } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
