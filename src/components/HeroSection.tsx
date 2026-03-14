@@ -80,7 +80,7 @@ const HeroSection = () => (
           className="inline-flex items-center gap-2 border border-border text-foreground font-semibold px-8 py-3.5 rounded-lg hover:bg-secondary transition-all"
         >
           Explorar comunidad
-        </a>
+        </Link>
       </motion.div>
     </div>
   </section>
