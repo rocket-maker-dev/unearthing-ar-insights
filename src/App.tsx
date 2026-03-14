@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Comunidad from "./pages/Comunidad";
 import Docs from "./pages/Docs";
+import Tecnologia from "./pages/Tecnologia";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
