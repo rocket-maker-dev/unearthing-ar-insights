@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Smartphone, Globe, Gamepad2, Box, Eye, ChevronRight } from "lucide-react";
+import { ArrowLeft, Smartphone, Globe, Gamepad2, Box, Eye, ChevronRight, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import AnimatedSection from "@/components/AnimatedSection";
 
