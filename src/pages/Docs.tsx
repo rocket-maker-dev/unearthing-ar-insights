@@ -7,6 +7,17 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 
+const slugify = (text: string) =>
+  text
+    .replace(/[^\p{L}\p{N}\s-]/gu, "") // keep letters (any language), numbers, spaces, hyphens
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+const cleanText = (raw: string) =>
+  raw.replace(/[^\p{L}\p{N}\s—\-:]/gu, "").trim();
+
 const Docs = () => {
   const { t } = useTranslation();
   const [markdown, setMarkdown] = useState("");
@@ -23,9 +34,9 @@ const Docs = () => {
         const h: { id: string; text: string; level: number }[] = [];
         let match;
         while ((match = regex.exec(text)) !== null) {
-          const text = match[2].replace(/[^\w\sáéíóúñü—]/gi, "").trim();
-          const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-          h.push({ id, text, level: match[1].length });
+          const clean = cleanText(match[2]);
+          const id = slugify(clean);
+          h.push({ id, text: clean, level: match[1].length });
         }
         setHeadings(h);
         setLoading(false);
