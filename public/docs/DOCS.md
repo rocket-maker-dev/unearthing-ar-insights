@@ -971,12 +971,12 @@ Construido para que otros lo repliquen y mejoren.
 
 ## Links
 
-- 📄 **Web del proyecto:** [rocketmaker.app/fll](https://rocketmaker.app/fll/)
-- 💻 **Código fuente:** [github.com/maker-lab-ferrol/ar-archaeology](https://github.com/maker-lab-ferrol/ar-archaeology)
-- 🏫 **Maker Lab:** [espaciovivo.gal](https://espaciovivo.gal)
-- 📡 **Scaniverse:** [scaniverse.com](https://scaniverse.com)
-- 🎮 **Three.js docs:** [threejs.org/docs](https://threejs.org/docs/)
-- 🌐 **WebXR spec:** [immersive-web.github.io](https://immersive-web.github.io/webxr/)
+- **Web del proyecto:** [unearthed.lovable.app](https://unearthed.lovable.app)
+- **Código fuente:** [github.com/rocket-maker-dev/unearthing-ar-insights](https://github.com/rocket-maker-dev/unearthing-ar-insights)
+- **Vision Maker Lab:** [espaciovivo.gal](https://espaciovivo.gal)
+- **Scaniverse:** [scaniverse.com](https://scaniverse.com)
+- **Three.js docs:** [threejs.org/docs](https://threejs.org/docs/)
+- **WebXR spec:** [immersive-web.github.io](https://immersive-web.github.io/webxr/)
 
 ---
 
