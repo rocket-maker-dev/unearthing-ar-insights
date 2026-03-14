@@ -469,8 +469,8 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
     setDeleting(null);
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Cargando...</div>;
-  if (!yacimiento) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">No encontrado</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">{t("community.loading")}</div>;
+  if (!yacimiento) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">{t("community.not_found")}</div>;
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-6">
