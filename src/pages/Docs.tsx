@@ -7,6 +7,28 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Navbar from "@/components/Navbar";
 
+import React from "react";
+
+const getTextFromChildren = (children: React.ReactNode): string => {
+  if (typeof children === "string") return children;
+  if (typeof children === "number") return String(children);
+  if (Array.isArray(children)) return children.map(getTextFromChildren).join("");
+  if (React.isValidElement(children) && children.props?.children)
+    return getTextFromChildren(children.props.children);
+  return "";
+};
+
+const slugify = (text: string) =>
+  text
+    .replace(/[^\p{L}\p{N}\s-]/gu, "") // keep letters (any language), numbers, spaces, hyphens
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+
+const cleanText = (raw: string) =>
+  raw.replace(/[^\p{L}\p{N}\s—\-:]/gu, "").trim();
+
 const Docs = () => {
   const { t } = useTranslation();
   const [markdown, setMarkdown] = useState("");
@@ -23,9 +45,9 @@ const Docs = () => {
         const h: { id: string; text: string; level: number }[] = [];
         let match;
         while ((match = regex.exec(text)) !== null) {
-          const text = match[2].replace(/[^\w\sáéíóúñü—]/gi, "").trim();
-          const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
-          h.push({ id, text, level: match[1].length });
+          const clean = cleanText(match[2]);
+          const id = slugify(clean);
+          h.push({ id, text: clean, level: match[1].length });
         }
         setHeadings(h);
         setLoading(false);
@@ -103,9 +125,9 @@ const Docs = () => {
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}
                 components={{
-                  h1: ({ children, ...props }) => { const text = String(children).replace(/[^\w\sáéíóúñü—]/gi, "").trim(); const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, ""); return <h1 id={id} className="text-3xl md:text-4xl font-bold mb-6 mt-12 first:mt-0 text-foreground scroll-mt-24" {...props}>{children}</h1>; },
-                  h2: ({ children, ...props }) => { const text = String(children).replace(/[^\w\sáéíóúñü—]/gi, "").trim(); const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, ""); return <h2 id={id} className="text-2xl font-bold mb-4 mt-10 text-foreground border-b border-border pb-3 scroll-mt-24" {...props}>{children}</h2>; },
-                  h3: ({ children, ...props }) => { const text = String(children).replace(/[^\w\sáéíóúñü—]/gi, "").trim(); const id = text.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, ""); return <h3 id={id} className="text-xl font-semibold mb-3 mt-8 text-foreground scroll-mt-24" {...props}>{children}</h3>; },
+                  h1: ({ children, ...props }) => { const id = slugify(cleanText(getTextFromChildren(children))); return <h1 id={id} className="text-3xl md:text-4xl font-bold mb-6 mt-12 first:mt-0 text-foreground scroll-mt-24" {...props}>{children}</h1>; },
+                  h2: ({ children, ...props }) => { const id = slugify(cleanText(getTextFromChildren(children))); return <h2 id={id} className="text-2xl font-bold mb-4 mt-10 text-foreground border-b border-border pb-3 scroll-mt-24" {...props}>{children}</h2>; },
+                  h3: ({ children, ...props }) => { const id = slugify(cleanText(getTextFromChildren(children))); return <h3 id={id} className="text-xl font-semibold mb-3 mt-8 text-foreground scroll-mt-24" {...props}>{children}</h3>; },
                   h4: ({ children, ...props }) => <h4 className="text-lg font-semibold mb-2 mt-6 text-foreground" {...props}>{children}</h4>,
                   p: ({ children, ...props }) => <p className="text-muted-foreground leading-relaxed mb-4" {...props}>{children}</p>,
                   a: ({ children, href, ...props }) => <a href={href} className="text-primary hover:underline underline-offset-4 transition-colors" target={href?.startsWith("http") ? "_blank" : undefined} rel={href?.startsWith("http") ? "noopener noreferrer" : undefined} {...props}>{children}</a>,
