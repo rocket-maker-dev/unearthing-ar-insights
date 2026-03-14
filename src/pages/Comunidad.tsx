@@ -592,7 +592,7 @@ const YacimientoDetail = ({ id, onBack }: { id: string; onBack: () => void }) =>
           const models3d = items.filter((i) => i.tipo === "modelo_3d" && i.archivo_url);
           return (
             <div className="border-t border-border pt-8 mt-8">
-              <h2 className="text-2xl font-bold mb-4">Visor 3D</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("community.viewer_3d")}</h2>
               {models3d.length > 1 && (
                 <div className="flex flex-wrap gap-2 mb-4">
                   {models3d.map((m) => (
