@@ -90,13 +90,17 @@ const Tecnologia = () => {
             <p className="text-sm font-semibold tracking-widest uppercase text-primary mb-3">🔬 {t("tech.hero_tag")}</p>
             <h1 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">{t("tech.hero_title")}</h1>
             <p className="text-muted-foreground text-lg max-w-3xl leading-relaxed mb-8">{t("tech.hero_desc")}</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-6">
               <Badge>🤖 Android ARCore</Badge>
               <Badge>🌐 WebXR API</Badge>
               <Badge>🎮 Three.js</Badge>
               <Badge>📦 Scaniverse</Badge>
               <Badge>👁️ OpenCV</Badge>
             </div>
+            <Link to="/#equipo" className="inline-flex items-center gap-2 rounded-lg border border-primary/30 text-primary font-medium px-5 py-2.5 text-sm hover:bg-primary/10 transition-colors">
+              <Users size={16} />
+              {t("tech.meet_team")}
+            </Link>
           </AnimatedSection>
 
           {/* Stats */}
