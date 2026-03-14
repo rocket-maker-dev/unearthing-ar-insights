@@ -961,10 +961,10 @@ El tracking lo hace ARKit → no tenemos control directo. Pero podemos mejorar l
 ```
 MIT License
 
-Copyright (c) 2026 Maker Lab - Espacio Vivo, Ferrol
+Copyright (c) 2026 Vision Maker Lab - Espacio Vivo, Ferrol
 
 Se permite cualquier uso, modificación y distribución.
-Construido para que otros lo repliquen y mejoren. 🌍
+Construido para que otros lo repliquen y mejoren.
 ```
 
 ---
