@@ -906,7 +906,7 @@ const Comunidad = () => {
 
       if (error) {
         console.error("Error loading yacimientos:", error);
-        setErrorMsg("No se pudieron cargar los yacimientos. Recarga la página.");
+        setErrorMsg(t("community.error_loading"));
         setYacimientos([]);
         return;
       }
