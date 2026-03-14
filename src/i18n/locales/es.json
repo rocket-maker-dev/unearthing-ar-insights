@@ -80,7 +80,8 @@
     "steps_title": "Pasos:",
     "step1": "Escanea el espacio con Scaniverse → exporta como .glb",
     "step2": "Descarga nuestro código → sube tu archivo GLB",
-    "step3": "Abre la URL en Chrome → toca el suelo → los objetos AR aparecen anclados al espacio"
+    "step3": "Abre la URL en Chrome → toca el suelo → los objetos AR aparecen anclados al espacio",
+    "tech_button": "🔬 Ver la tecnología detrás del proyecto"
   },
   "team": {
     "label": "Quiénes somos",
