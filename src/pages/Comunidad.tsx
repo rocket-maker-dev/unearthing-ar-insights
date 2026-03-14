@@ -973,15 +973,15 @@ const Comunidad = () => {
             {/* CTA to register */}
             <AnimatedSection delay={0.2}>
               <div className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
-                <h3 className="text-xl font-bold mb-2">¿Conoces un yacimiento o centro de interpretación?</h3>
+                <h3 className="text-xl font-bold mb-2">{t("community.cta_title")}</h3>
                 <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-                  Regístralo en la plataforma y comparte contenido AR con la comunidad. Cualquiera puede añadir un nuevo yacimiento con sus fotos, vídeos y modelos 3D.
+                  {t("community.cta_desc")}
                 </p>
                 <button
                   onClick={() => setShowNewForm(true)}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition-all"
                 >
-                  <Plus size={18} /> Registrar yacimiento
+                  <Plus size={18} /> {t("community.register")}
                 </button>
               </div>
             </AnimatedSection>
