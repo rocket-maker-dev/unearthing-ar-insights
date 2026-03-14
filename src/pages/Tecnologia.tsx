@@ -129,7 +129,7 @@ const Tecnologia = () => {
 
           <AnimatedSection delay={0.1}>
             <div className="max-w-md mx-auto space-y-2">
-              <FlowStep name="📱 iPhone (Safari)" desc={t("tech.flow1")} />
+              <FlowStep name="📱 Android (Chrome)" desc={t("tech.flow1")} />
               <FlowArrow />
               <FlowStep name="🌐 WebXR API" desc={t("tech.flow2")} />
               <FlowArrow />
