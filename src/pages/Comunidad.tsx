@@ -958,7 +958,7 @@ const Comunidad = () => {
               </div>
             ) : yacimientos.length === 0 ? (
               <div className="text-center py-20 text-muted-foreground">
-                <p>No hay yacimientos registrados aún.</p>
+                <p>{t("community.no_sites")}</p>
               </div>
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
